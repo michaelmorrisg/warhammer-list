@@ -4,9 +4,6 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Main Screen'),
-        ),
         floatingActionButton: FloatingActionButton(
             child: Icon(Icons.add),
             onPressed: () {
@@ -16,24 +13,26 @@ class MainScreen extends StatelessWidget {
           children: <Widget>[
             Card(
               child: ListTile(
-                title: Text('List Item'),
-                trailing: Icon(Icons.edit),
-                onTap: () {
-                  Navigator.pushNamed(context, '/add-army');
-                }
-              ),
-            ),
-            Card(
-              child: ListTile(
-                title: Text('List Item'),
-                trailing: Icon(Icons.edit),
-              ),
-            ),
-            Card(
-              child: ListTile(
-                title: Text('List Item'),
-                trailing: Icon(Icons.edit),
-              ),
+                  title: Text('Tzeentch Demons'),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      FlatButton(
+                        child: Icon(Icons.edit),
+                        onPressed: () {
+                          print('edit!');
+                        },
+                      ),
+                      FlatButton(
+                          child: Icon(Icons.delete),
+                          onPressed: () {
+                            print('delete!');
+                          }),
+                    ],
+                  ),
+                  onTap: () {
+                    Navigator.pushNamed(context, '/add-army', arguments: 1);
+                  }),
             ),
           ],
         ));
