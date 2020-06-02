@@ -13,9 +13,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Testing Things',
       theme: ThemeData(
-        brightness: Brightness.light,
-        primaryColor: Colors.blue,
-        accentColor: Colors.blue[900]
+        brightness: Brightness.dark,
+        primaryColor: Colors.blueGrey,
+        accentColor: Colors.amberAccent,
+        fontFamily: 'RobotoCondensed',
       ),
       initialRoute: '/',
       routes: {

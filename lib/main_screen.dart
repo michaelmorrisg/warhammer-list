@@ -13,21 +13,23 @@ class MainScreen extends StatelessWidget {
           children: <Widget>[
             Card(
               child: ListTile(
-                  title: Text('Tzeentch Demons'),
+                  title:
+                      Text('Tzeentch Demons', style: TextStyle(fontSize: 20.0)),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      FlatButton(
-                        child: Icon(Icons.edit),
+                      IconButton(
+                        icon: Icon(Icons.edit),
                         onPressed: () {
                           print('edit!');
-                        },
+                        }
                       ),
-                      FlatButton(
-                          child: Icon(Icons.delete),
-                          onPressed: () {
-                            print('delete!');
-                          }),
+                      IconButton(
+                        icon: Icon(Icons.delete),
+                        onPressed: () {
+                          print('delete!');
+                        }
+                      ),
                     ],
                   ),
                   onTap: () {
