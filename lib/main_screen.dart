@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
+import 'army_list.dart';
+import 'army.dart';
 
-class MainScreen extends StatelessWidget {
+class MainScreen extends StatefulWidget {
+  _MainScreenState createState() => _MainScreenState();
+}
+
+class _MainScreenState extends State<MainScreen> {
+  ArmyList armyList = ArmyList();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -8,35 +15,16 @@ class MainScreen extends StatelessWidget {
             child: Icon(Icons.add),
             onPressed: () {
               Navigator.pushNamed(context, '/add-army');
+              // setState(() {
+              //   armyList.armyList.add(Army(title: 'Testing'));
+              // });
             }),
-        body: ListView(
-          children: <Widget>[
-            Card(
-              child: ListTile(
-                  title:
-                      Text('Tzeentch Demons', style: TextStyle(fontSize: 20.0)),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      IconButton(
-                        icon: Icon(Icons.edit),
-                        onPressed: () {
-                          print('edit!');
-                        }
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.delete),
-                        onPressed: () {
-                          print('delete!');
-                        }
-                      ),
-                    ],
-                  ),
-                  onTap: () {
-                    Navigator.pushNamed(context, '/add-army', arguments: 1);
-                  }),
-            ),
-          ],
-        ));
+        body: ListView.builder(
+          itemCount: armyList.armyList.length,
+          itemBuilder: (BuildContext context, index) {
+            return armyList.getArmy(index, context);
+          }
+        )
+        );
   }
 }
