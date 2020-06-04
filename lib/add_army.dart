@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'stat_avatar_list.dart';
+import 'stat_avatar.dart';
 import 'army.dart';
 
 class AddArmy extends StatefulWidget {
@@ -9,11 +10,9 @@ class AddArmy extends StatefulWidget {
 }
 class _AddArmyState extends State<AddArmy> {
   StatAvatarList statAvatarList = StatAvatarList();
-
   @override
   Widget build(BuildContext context) {
-    // var args = ModalRoute.of(context).settings.arguments;
-    print(widget.army.avatars);
+  List selectedAvatars = widget.army.avatars;
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.army.title),
@@ -22,12 +21,15 @@ class _AddArmyState extends State<AddArmy> {
         children: <Widget>[
           Expanded(
             flex: 4,
-            child: Center(
-              child: Wrap(
-                children: <Widget>[
-
-                ],
-              ),
+            child: Row(
+              children: <Widget>[
+                // ListView.builder(
+                //   itemCount: selectedAvatars.length,
+                //   itemBuilder: (BuildContext context, index) {
+                //     return StatAvatar(imageText: 'LOC', name: 'Lord of Change');
+                //   }
+                // )
+              ],
             ),
           ),
           Expanded(
