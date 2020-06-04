@@ -4,7 +4,7 @@ class StatAvatar extends StatelessWidget {
   final name;
   final imageText;
 
-  StatAvatar(this.name, this.imageText);
+  StatAvatar({this.name, this.imageText});
 
   @override
   Widget build(BuildContext context) {

@@ -1,41 +1,44 @@
 import 'package:flutter/material.dart';
-import 'stat_avatar.dart';
+import 'stat_avatar_list.dart';
+import 'army.dart';
 
-class AddArmy extends StatelessWidget {
+class AddArmy extends StatefulWidget {
+  final Army army;
+  const AddArmy({Key key, @required this.army}) : super(key: key);
+  _AddArmyState createState() => _AddArmyState();
+}
+class _AddArmyState extends State<AddArmy> {
+  StatAvatarList statAvatarList = StatAvatarList();
+
   @override
   Widget build(BuildContext context) {
-    var args = ModalRoute.of(context).settings.arguments;
-
+    // var args = ModalRoute.of(context).settings.arguments;
+    print(widget.army.avatars);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Army $args'),
+        title: Text(widget.army.title),
       ),
       body: Column(
         children: <Widget>[
           Expanded(
-            flex: 2,
+            flex: 4,
             child: Center(
               child: Wrap(
                 children: <Widget>[
-                  Chip(
-                    avatar: CircleAvatar(
-                      backgroundColor: Colors.grey.shade800,
-                      child: Text('AB'),
-                    ),
-                    label: Text('Aaron Burr'),
-                  ),
+
                 ],
               ),
             ),
           ),
           Expanded(
             flex: 1,
-            child: ListView(
+            child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              children: <Widget>[
-                StatAvatar('Pink Horror', 'PH')
-              ],
-            ),
+          itemCount: statAvatarList.avatarList.length,
+          itemBuilder: (BuildContext context, index) {
+            return statAvatarList.getAvatars(index, context);
+          }
+        )
           ),
         ],
       ),

@@ -1,5 +1,6 @@
 class Army {
   String title;
-
-  Army({this.title});
+  List avatars;
+  
+  Army({this.title, this.avatars});
 }

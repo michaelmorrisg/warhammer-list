@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
+import 'add_army.dart';
 import 'army.dart';
 
 class ArmyList {
   List<Army> armyList = [
-    Army(title: 'Tzeentch Demons'),
-    Army(title: 'Iron Warriors'),
-    Army(title: 'Chaos Killteam'),
-    Army(title: 'Demons w/ Knight'),
+    Army(title: 'Tzeentch Demons', avatars: [1,3]),
+    Army(title: 'Iron Warriors', avatars: []),
+    Army(title: 'Chaos Killteam', avatars: []),
+    Army(title: 'Demons w/ Knight', avatars: []),
   ];
 
-  getArmy(index, context) {
+  Card armyListItem(armyListIndex, context) {
     return Card(
       child: ListTile(
-          title: Text(armyList[index].title,
+          title: Text(armyList[armyListIndex].title,
               style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w700)),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
@@ -30,7 +31,7 @@ class ArmyList {
             ],
           ),
           onTap: () {
-            Navigator.pushNamed(context, '/add-army', arguments: 1);
+            Navigator.push(context, MaterialPageRoute(builder: (context) => AddArmy(army: armyList[armyListIndex])));
           }),
     );
   }
