@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'add_army.dart';
 import 'army.dart';
+import 'stat_avatar.dart';
 
 class ArmyList {
   List<Army> armyList = [
-    Army(title: 'Tzeentch Demons', avatars: [1,3]),
+    Army(title: 'Tzeentch Demons', avatars: [
+      StatAvatar(id: 1, imageText: 'PH', name: 'Pink Horror'),
+      StatAvatar(id: 2, imageText: 'BH', name: 'Blue Horror'),
+      StatAvatar(id: 3, imageText: 'F', name: 'Flamer'),
+    ]
+    ),
     Army(title: 'Iron Warriors', avatars: []),
     Army(title: 'Chaos Killteam', avatars: []),
     Army(title: 'Demons w/ Knight', avatars: []),

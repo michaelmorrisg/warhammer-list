@@ -8,11 +8,12 @@ class AddArmy extends StatefulWidget {
   const AddArmy({Key key, @required this.army}) : super(key: key);
   _AddArmyState createState() => _AddArmyState();
 }
+
 class _AddArmyState extends State<AddArmy> {
   StatAvatarList statAvatarList = StatAvatarList();
   @override
   Widget build(BuildContext context) {
-  List selectedAvatars = widget.army.avatars;
+    List selectedAvatars = widget.army.avatars;
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.army.title),
@@ -21,27 +22,44 @@ class _AddArmyState extends State<AddArmy> {
         children: <Widget>[
           Expanded(
             flex: 4,
-            child: Row(
-              children: <Widget>[
-                // ListView.builder(
-                //   itemCount: selectedAvatars.length,
-                //   itemBuilder: (BuildContext context, index) {
-                //     return StatAvatar(imageText: 'LOC', name: 'Lord of Change');
-                //   }
-                // )
-              ],
-            ),
+            child: ListView.builder(
+                itemCount: selectedAvatars.length,
+                itemBuilder: (BuildContext context, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        StatAvatar removedAvatar = selectedAvatars.removeAt(index);
+                        statAvatarList.avatarList.add(removedAvatar);
+                      });
+                    },
+                    child: StatAvatar(
+                        id: selectedAvatars[index].id,
+                        imageText: selectedAvatars[index].imageText,
+                        name: selectedAvatars[index].name),
+                  );
+                }),
           ),
           Expanded(
-            flex: 1,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-          itemCount: statAvatarList.avatarList.length,
-          itemBuilder: (BuildContext context, index) {
-            return statAvatarList.getAvatars(index, context);
-          }
-        )
-          ),
+              flex: 1,
+              child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: statAvatarList.avatarList.length,
+                  itemBuilder: (BuildContext context, index) {
+                    // return statAvatarList.getAvatars(index, context);
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          StatAvatar removedAvatar = statAvatarList.avatarList.removeAt(index);
+                          selectedAvatars.add(removedAvatar);
+                        });
+                      },
+                      child: StatAvatar(
+                          id: statAvatarList.avatarList[index].id,
+                          imageText: statAvatarList.avatarList[index].imageText,
+                          name: statAvatarList.avatarList[index].name
+                        ),
+                    );
+                  })),
         ],
       ),
     );
