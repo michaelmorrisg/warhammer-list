@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class StatAvatar extends StatelessWidget {
-  int id;
-  String name;
-  String imageText;
+  final id;
+  final name;
+  final imageText;
 
   StatAvatar({this.name, this.imageText, this.id});
 

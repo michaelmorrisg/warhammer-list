@@ -1,7 +1,7 @@
-import 'stat_avatar.dart';
+import 'stat_item.dart';
 class Army {
   String title;
-  List<StatAvatar> avatars;
+  List<StatItem> statItems;
 
-  Army({this.title, this.avatars});
+  Army({this.title, this.statItems});
 }

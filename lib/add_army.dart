@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'stat_avatar_list.dart';
+import 'stat_item_list.dart';
 import 'stat_avatar.dart';
 import 'army.dart';
+import 'stat_item.dart';
 
 class AddArmy extends StatefulWidget {
   final Army army;
@@ -10,62 +11,66 @@ class AddArmy extends StatefulWidget {
 }
 
 class _AddArmyState extends State<AddArmy> {
-  StatAvatarList statAvatarList = StatAvatarList();
+  StatItemList statItemList = StatItemList();
   @override
   Widget build(BuildContext context) {
-    List selectedAvatars = widget.army.avatars;
+    List selectedStatItems = widget.army.statItems;
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.army.title),
       ),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            flex: 4,
-            child: GridView.builder(
-                itemCount: selectedAvatars.length,
-                gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  childAspectRatio: 1,
-                ),
-                itemBuilder: (BuildContext context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        StatAvatar removedAvatar =
-                            selectedAvatars.removeAt(index);
-                        statAvatarList.avatarList.add(removedAvatar);
-                      });
-                    },
-                    child: StatAvatar(
-                        id: selectedAvatars[index].id,
-                        imageText: selectedAvatars[index].imageText,
-                        name: selectedAvatars[index].name),
-                  );
-                }),
-          ),
-          Expanded(
-              flex: 1,
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: statAvatarList.avatarList.length,
+      body: Padding(
+        padding: const EdgeInsets.only(top: 15.0),
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              flex: 4,
+              child: GridView.builder(
+                  itemCount: selectedStatItems.length,
+                  gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisSpacing: 10,
+                    crossAxisCount: 3,
+                    childAspectRatio: 1,
+                  ),
                   itemBuilder: (BuildContext context, index) {
-                    // return statAvatarList.getAvatars(index, context);
                     return GestureDetector(
                       onTap: () {
                         setState(() {
-                          StatAvatar removedAvatar =
-                              statAvatarList.avatarList.removeAt(index);
-                          selectedAvatars.add(removedAvatar);
+                          StatItem removedAvatar =
+                              selectedStatItems.removeAt(index);
+                          statItemList.statItemList.add(removedAvatar);
                         });
                       },
                       child: StatAvatar(
-                          id: statAvatarList.avatarList[index].id,
-                          imageText: statAvatarList.avatarList[index].imageText,
-                          name: statAvatarList.avatarList[index].name),
+                          id: selectedStatItems[index].id,
+                          imageText: selectedStatItems[index].imageText,
+                          name: selectedStatItems[index].name),
                     );
-                  })),
-        ],
+                  }),
+            ),
+            Expanded(
+                flex: 1,
+                child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: statItemList.statItemList.length,
+                    itemBuilder: (BuildContext context, index) {
+                      // return statAvatarList.getAvatars(index, context);
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            StatItem removedAvatar =
+                                statItemList.statItemList.removeAt(index);
+                            selectedStatItems.add(removedAvatar);
+                          });
+                        },
+                        child: StatAvatar(
+                            id: statItemList.statItemList[index].id,
+                            imageText: statItemList.statItemList[index].imageText,
+                            name: statItemList.statItemList[index].name),
+                      );
+                    })),
+          ],
+        ),
       ),
     );
   }

@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'add_army.dart';
 import 'army.dart';
-import 'stat_avatar.dart';
+import 'stat_item.dart';
 
 class ArmyList {
   List<Army> armyList = [
-    Army(title: 'Tzeentch Demons', avatars: [
-      StatAvatar(id: 1, imageText: 'PH', name: 'Pink Horror'),
-      StatAvatar(id: 2, imageText: 'BH', name: 'Blue Horror'),
-      StatAvatar(id: 3, imageText: 'F', name: 'Flamer'),
+    Army(title: 'Tzeentch Demons', statItems: [
+      StatItem(id: 1, imageText: 'PH', name: 'Pink Horror'),
+      StatItem(id: 2, imageText: 'BH', name: 'Blue Horror'),
+      StatItem(id: 3, imageText: 'F', name: 'Flamer'),
     ]
     ),
-    Army(title: 'Iron Warriors', avatars: []),
-    Army(title: 'Chaos Killteam', avatars: []),
-    Army(title: 'Demons w/ Knight', avatars: []),
+    Army(title: 'Iron Warriors', statItems: []),
+    Army(title: 'Chaos Killteam', statItems: []),
+    Army(title: 'Demons w/ Knight', statItems: []),
   ];
 
   Card armyListItem(armyListIndex, context) {
