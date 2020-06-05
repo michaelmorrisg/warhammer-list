@@ -22,13 +22,18 @@ class _AddArmyState extends State<AddArmy> {
         children: <Widget>[
           Expanded(
             flex: 4,
-            child: ListView.builder(
+            child: GridView.builder(
                 itemCount: selectedAvatars.length,
+                gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  childAspectRatio: 1,
+                ),
                 itemBuilder: (BuildContext context, index) {
                   return GestureDetector(
                     onTap: () {
                       setState(() {
-                        StatAvatar removedAvatar = selectedAvatars.removeAt(index);
+                        StatAvatar removedAvatar =
+                            selectedAvatars.removeAt(index);
                         statAvatarList.avatarList.add(removedAvatar);
                       });
                     },
@@ -49,15 +54,15 @@ class _AddArmyState extends State<AddArmy> {
                     return GestureDetector(
                       onTap: () {
                         setState(() {
-                          StatAvatar removedAvatar = statAvatarList.avatarList.removeAt(index);
+                          StatAvatar removedAvatar =
+                              statAvatarList.avatarList.removeAt(index);
                           selectedAvatars.add(removedAvatar);
                         });
                       },
                       child: StatAvatar(
                           id: statAvatarList.avatarList[index].id,
                           imageText: statAvatarList.avatarList[index].imageText,
-                          name: statAvatarList.avatarList[index].name
-                        ),
+                          name: statAvatarList.avatarList[index].name),
                     );
                   })),
         ],
