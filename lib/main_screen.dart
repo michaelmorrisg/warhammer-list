@@ -32,13 +32,19 @@ class _MainScreenState extends State<MainScreen> {
                       FlatButton(
                         child: Text('Create'),
                         onPressed: () {
+                          Army newArmy = Army(title: title, statItems: []);
+                          setState(() {
+                            armyList.armyList.add(newArmy);
+                          });
                           Navigator.pop(context);
                           Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AddArmy(
-                                      army: Army(
-                                          title: title, statItems: []))));
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AddArmy(
+                                army: newArmy,
+                              ),
+                            ),
+                          );
                         },
                       ),
                     ],
