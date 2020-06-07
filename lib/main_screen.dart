@@ -74,9 +74,32 @@ class _MainScreenState extends State<MainScreen> {
                       IconButton(
                           icon: Icon(Icons.delete),
                           onPressed: () {
-                            setState(() {
-                              armyList.armyList.removeAt(index);
-                            });
+                            showDialog(
+                                context: context,
+                                barrierDismissible: true,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Delete List?'),
+                                    actions: <Widget>[
+                                      FlatButton(
+                                        child: Text('Cancel'),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                      FlatButton(
+                                        textColor: Colors.red,
+                                        child: Text('Delete'),
+                                        onPressed: () {
+                                          setState(() {
+                                            armyList.armyList.removeAt(index);
+                                            Navigator.pop(context);
+                                          });
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                });
                           }),
                     ],
                   ),
