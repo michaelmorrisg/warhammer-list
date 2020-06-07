@@ -27,7 +27,7 @@ class ArmyList {
               IconButton(
                   icon: Icon(Icons.edit),
                   onPressed: () {
-                    print('edit!');
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => AddArmy(army: armyList[armyListIndex])));
                   }),
               IconButton(
                   icon: Icon(Icons.delete),
@@ -37,7 +37,7 @@ class ArmyList {
             ],
           ),
           onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => AddArmy(army: armyList[armyListIndex])));
+            // Navigator.push(context, MaterialPageRoute(builder: (context) => AddArmy(army: armyList[armyListIndex])));
           }),
     );
   }
