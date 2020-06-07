@@ -54,7 +54,36 @@ class _MainScreenState extends State<MainScreen> {
       body: ListView.builder(
           itemCount: armyList.armyList.length,
           itemBuilder: (BuildContext context, index) {
-            return armyList.armyListItem(index, context);
+            return Card(
+              child: ListTile(
+                  title: Text(armyList.armyList[index].title,
+                      style: TextStyle(
+                          fontSize: 20.0, fontWeight: FontWeight.w700)),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      IconButton(
+                          icon: Icon(Icons.edit),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AddArmy(
+                                        army: armyList.armyList[index])));
+                          }),
+                      IconButton(
+                          icon: Icon(Icons.delete),
+                          onPressed: () {
+                            setState(() {
+                              armyList.armyList.removeAt(index);
+                            });
+                          }),
+                    ],
+                  ),
+                  onTap: () {
+                    // Navigator.push(context, MaterialPageRoute(builder: (context) => AddArmy(army: armyList[armyListIndex])));
+                  }),
+            );
           }),
     );
   }
