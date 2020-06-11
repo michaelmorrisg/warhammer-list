@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../army_list.dart';
+import '../classes/army_list.dart';
 import 'add_army.dart';
-import '../army.dart';
+import '../classes/army.dart';
 import 'go_to_army.dart';
 
 class MainScreen extends StatefulWidget {

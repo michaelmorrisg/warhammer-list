@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../stat_item_list.dart';
+import '../classes/stat_item_list.dart';
 import '../stat_avatar.dart';
-import '../army.dart';
-import '../stat_item.dart';
+import '../classes/army.dart';
+import '../classes/stat_item.dart';
 
 class AddArmy extends StatefulWidget {
   final Army army;
