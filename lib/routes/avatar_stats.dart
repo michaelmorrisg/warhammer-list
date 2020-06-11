@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'stat_item.dart';
+import '../stat_item.dart';
 
 class AvatarStats extends StatefulWidget {
   final StatItem statItem;

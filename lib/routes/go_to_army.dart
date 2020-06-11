@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:warhammerApp/avatar_stats.dart';
-import 'stat_item_list.dart';
-import 'stat_avatar.dart';
-import 'army.dart';
 import 'avatar_stats.dart';
+import '../stat_item_list.dart';
+import '../stat_avatar.dart';
+import '../army.dart';
 
 class GoToArmy extends StatefulWidget {
   final Army army;
