@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'army_list.dart';
 import 'add_army.dart';
 import 'army.dart';
+import 'go_to_army.dart';
 
 class MainScreen extends StatefulWidget {
   _MainScreenState createState() => _MainScreenState();
@@ -104,7 +105,11 @@ class _MainScreenState extends State<MainScreen> {
                     ],
                   ),
                   onTap: () {
-                    // Navigator.push(context, MaterialPageRoute(builder: (context) => AddArmy(army: armyList[armyListIndex])));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                GoToArmy(army: armyList.armyList[index])));
                   }),
             );
           }),

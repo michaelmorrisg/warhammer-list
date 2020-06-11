@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'main_screen.dart';
-import 'add_army.dart';
 
 void main() {
   runApp(MyApp());
