@@ -15,12 +15,18 @@ class _AvatarStatsState extends State<AvatarStats> {
       body: Table(border: TableBorder.all(), children: [
         TableRow(children: [
           CellWidget(stat: widget.statItem.movement, title: 'M'),
-          TableCell(
-            child: Text('2'),
-          ),
-          TableCell(
-            child: Text('3'),
-          ),
+          CellWidget(stat: widget.statItem.weaponSkill, title: 'WS'),
+          CellWidget(stat: widget.statItem.ballisticSkill, title: 'BS'),
+        ]),
+        TableRow(children: [
+          CellWidget(stat: widget.statItem.strength, title: 'S'),
+          CellWidget(stat: widget.statItem.toughness, title: 'T'),
+          CellWidget(stat: widget.statItem.wounds, title: 'W'),
+        ]),
+        TableRow(children: [
+          CellWidget(stat: widget.statItem.attacks, title: 'A'),
+          CellWidget(stat: widget.statItem.leadership, title: 'Ld'),
+          CellWidget(stat: widget.statItem.save, title: 'Sa'),
         ]),
       ]),
     );
