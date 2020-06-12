@@ -9,6 +9,14 @@ class StatItemList {
     StatItem(id: 5, imageText: 'DP', name: 'Demon Prince'),
   ];
 
+  filterList(List selectedStatItems) {
+    var list = this.statItemList;
+    for (var i = 0; i < selectedStatItems.length; i ++) {
+      list.removeWhere((statItem) => statItem.id == selectedStatItems[i].id);
+    }
+    return list.toList();
+  }
+
   // StatItem getStatItems(index, context) {
   //   return statItemList[index];
   // }

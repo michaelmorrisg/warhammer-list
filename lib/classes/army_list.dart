@@ -4,7 +4,7 @@ import 'stat_item.dart';
 class ArmyList {
   List<Army> armyList = [
     Army(title: 'Tzeentch Demons', statItems: [
-      StatItem(id: 1, imageText: 'PH', name: 'Pink Horror'),
+      StatItem(id: 1, imageText: 'PH', name: 'Pink Horror', movement: '6"'),
       StatItem(id: 2, imageText: 'BH', name: 'Blue Horror'),
       StatItem(id: 3, imageText: 'F', name: 'Flamer'),
     ]

@@ -11,9 +11,47 @@ class _AvatarStatsState extends State<AvatarStats> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.statItem.name)
-      )
+      appBar: AppBar(title: Text(widget.statItem.name)),
+      body: Table(border: TableBorder.all(), children: [
+        TableRow(children: [
+          CellWidget(stat: widget.statItem.movement, title: 'M'),
+          TableCell(
+            child: Text('2'),
+          ),
+          TableCell(
+            child: Text('3'),
+          ),
+        ]),
+      ]),
+    );
+  }
+}
+
+class CellWidget extends StatelessWidget {
+  final stat;
+  final title;
+
+  CellWidget({this.stat, this.title});
+  @override
+  Widget build(BuildContext context) {
+    return TableCell(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.all(10.0),
+            decoration: BoxDecoration(color: Colors.blueGrey),
+            child: Text(
+              this.title,
+              textAlign: TextAlign.center,
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.all(15.0),
+            child: Text(stat, textAlign: TextAlign.center),
+          ),
+        ],
+      ),
     );
   }
 }

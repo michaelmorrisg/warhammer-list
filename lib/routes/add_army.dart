@@ -15,6 +15,10 @@ class _AddArmyState extends State<AddArmy> {
   @override
   Widget build(BuildContext context) {
     List selectedStatItems = widget.army.statItems;
+    // for (var i = 0; i < selectedStatItems.length; i ++) {
+    //   statItemList.removeWhere((statItem) => statItem)
+    // }
+    var filteredStatItemList = statItemList.filterList(selectedStatItems);
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.army.title),
@@ -52,21 +56,20 @@ class _AddArmyState extends State<AddArmy> {
                 flex: 1,
                 child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: statItemList.statItemList.length,
+                    itemCount: filteredStatItemList.length,
                     itemBuilder: (BuildContext context, index) {
-                      // return statAvatarList.getAvatars(index, context);
                       return GestureDetector(
                         onTap: () {
                           setState(() {
                             StatItem removedAvatar =
-                                statItemList.statItemList.removeAt(index);
+                                filteredStatItemList.removeAt(index);
                             selectedStatItems.add(removedAvatar);
                           });
                         },
                         child: StatAvatar(
-                            id: statItemList.statItemList[index].id,
-                            imageText: statItemList.statItemList[index].imageText,
-                            name: statItemList.statItemList[index].name),
+                            id: filteredStatItemList[index].id,
+                            imageText: filteredStatItemList[index].imageText,
+                            name: filteredStatItemList[index].name),
                       );
                     })),
           ],
