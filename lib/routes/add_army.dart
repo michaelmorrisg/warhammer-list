@@ -3,6 +3,7 @@ import '../classes/stat_item_list.dart';
 import '../stat_avatar.dart';
 import '../classes/army.dart';
 import '../classes/stat_item.dart';
+import '../routes/add_stat_item.dart';
 
 class AddArmy extends StatefulWidget {
   final Army army;
@@ -14,6 +15,7 @@ class _AddArmyState extends State<AddArmy> {
   StatItemList statItemList = StatItemList();
   @override
   Widget build(BuildContext context) {
+    dynamic name = '';
     List selectedStatItems = widget.army.statItems;
     // for (var i = 0; i < selectedStatItems.length; i ++) {
     //   statItemList.removeWhere((statItem) => statItem)
@@ -38,19 +40,18 @@ class _AddArmyState extends State<AddArmy> {
                   ),
                   itemBuilder: (BuildContext context, index) {
                     return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          StatItem removedAvatar =
-                              selectedStatItems.removeAt(index);
-                          statItemList.statItemList.add(removedAvatar);
-                        });
-                      },
-                      child: StatAvatar(
-                          id: selectedStatItems[index].id,
-                          imageText: selectedStatItems[index].imageText,
-                          name: selectedStatItems[index].name,
-                          color: selectedStatItems[index].color)
-                    );
+                        onTap: () {
+                          setState(() {
+                            StatItem removedAvatar =
+                                selectedStatItems.removeAt(index);
+                            statItemList.statItemList.add(removedAvatar);
+                          });
+                        },
+                        child: StatAvatar(
+                            id: selectedStatItems[index].id,
+                            imageText: selectedStatItems[index].imageText,
+                            name: selectedStatItems[index].name,
+                            color: selectedStatItems[index].color));
                   }),
             ),
             Expanded(
@@ -62,17 +63,53 @@ class _AddArmyState extends State<AddArmy> {
                       return GestureDetector(
                         onTap: () {
                           setState(() {
-                            StatItem removedAvatar =
-                                filteredStatItemList.removeAt(index);
-                            selectedStatItems.add(removedAvatar);
+                            if (filteredStatItemList[index].id == 0) {
+                              showDialog(
+                                  context: context,
+                                  barrierDismissible: true,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text(
+                                          'What do you want to name your new stat item?'),
+                                      content: TextField(
+                                        decoration:
+                                            InputDecoration(labelText: 'Name'),
+                                        onChanged: (input) {
+                                          name = input;
+                                        },
+                                      ),
+                                      actions: <Widget>[
+                                        FlatButton(
+                                          child: Text('Create'),
+                                          onPressed: () {
+                                            StatItem newStatItem = StatItem(
+                                                id: 6, color: Colors.cyan, );
+                                            Navigator.pop(context);
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) => AddStatItem(
+                                                  statItem: newStatItem,
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  });
+                            } else {
+                              StatItem removedAvatar =
+                                  filteredStatItemList.removeAt(index);
+                              selectedStatItems.add(removedAvatar);
+                            }
                           });
                         },
                         child: StatAvatar(
                             id: filteredStatItemList[index].id,
                             imageText: filteredStatItemList[index].imageText,
                             name: filteredStatItemList[index].name,
-                            color: filteredStatItemList[index].color
-                          ),
+                            color: filteredStatItemList[index].color),
                       );
                     })),
           ],
