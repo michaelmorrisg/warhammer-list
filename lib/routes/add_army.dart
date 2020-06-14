@@ -48,7 +48,8 @@ class _AddArmyState extends State<AddArmy> {
                       child: StatAvatar(
                           id: selectedStatItems[index].id,
                           imageText: selectedStatItems[index].imageText,
-                          name: selectedStatItems[index].name),
+                          name: selectedStatItems[index].name,
+                          color: selectedStatItems[index].color)
                     );
                   }),
             ),
@@ -69,7 +70,9 @@ class _AddArmyState extends State<AddArmy> {
                         child: StatAvatar(
                             id: filteredStatItemList[index].id,
                             imageText: filteredStatItemList[index].imageText,
-                            name: filteredStatItemList[index].name),
+                            name: filteredStatItemList[index].name,
+                            color: filteredStatItemList[index].color
+                          ),
                       );
                     })),
           ],

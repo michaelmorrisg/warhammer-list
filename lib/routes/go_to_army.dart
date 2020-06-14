@@ -46,7 +46,8 @@ class _GoToArmyState extends State<GoToArmy> {
                       child: StatAvatar(
                           id: selectedStatItems[index].id,
                           imageText: selectedStatItems[index].imageText,
-                          name: selectedStatItems[index].name),
+                          name: selectedStatItems[index].name,
+                          color: selectedStatItems[index].color)
                     );
                   }),
             ),

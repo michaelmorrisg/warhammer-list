@@ -4,8 +4,9 @@ class StatAvatar extends StatelessWidget {
   final id;
   final name;
   final imageText;
+  final color;
 
-  StatAvatar({this.name, this.imageText, this.id});
+  StatAvatar({this.name, this.imageText, this.id, this.color});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -13,7 +14,7 @@ class StatAvatar extends StatelessWidget {
       child: Column(
         children: <Widget>[
           CircleAvatar(
-            backgroundColor: Colors.yellow,
+            backgroundColor: this.color,
             radius: 40.0,
             child: Text(this.imageText),
           ),
