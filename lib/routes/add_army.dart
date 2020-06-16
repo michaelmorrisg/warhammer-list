@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:random_color/random_color.dart';
 import '../classes/stat_item_list.dart';
 import '../stat_avatar.dart';
 import '../classes/army.dart';
@@ -13,6 +14,7 @@ class AddArmy extends StatefulWidget {
 
 class _AddArmyState extends State<AddArmy> {
   StatItemList statItemList = StatItemList();
+  RandomColor randomColor = RandomColor();
   @override
   Widget build(BuildContext context) {
     dynamic name = '';
@@ -82,15 +84,22 @@ class _AddArmyState extends State<AddArmy> {
                                         FlatButton(
                                           child: Text('Create'),
                                           onPressed: () {
-                                            StatItem newStatItem = StatItem(name: name);
-                                                setState(() {
-                                                  selectedStatItems.add(newStatItem);
-                                                });
+                                            StatItem newStatItem = StatItem(
+                                                name: name,
+                                                color: randomColor.randomColor(
+                                                    colorSaturation:
+                                                        ColorSaturation
+                                                            .highSaturation));
+                                            setState(() {
+                                              selectedStatItems
+                                                  .add(newStatItem);
+                                            });
                                             Navigator.pop(context);
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(
-                                                builder: (context) => AddStatItem(
+                                                builder: (context) =>
+                                                    AddStatItem(
                                                   statItem: newStatItem,
                                                 ),
                                               ),
