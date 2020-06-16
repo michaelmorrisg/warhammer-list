@@ -15,5 +15,16 @@ class StatItem {
   String leadership;
   String save;
 
-  StatItem({this.id, this.color, this.name, this.imageText, this.movement, this.weaponSkill, this.ballisticSkill, this.strength, this.toughness, this.wounds, this.attacks, this.leadership, this.save});
+  StatItem({this.id, this.color, this.name, this.movement, this.weaponSkill, this.ballisticSkill, this.strength, this.toughness, this.wounds, this.attacks, this.leadership, this.save}) {
+    if (this.id == 0) {
+      this.imageText = null;
+    } else {
+      var splitName = this.name.split(' ');
+      String imageText = '';
+      for(var i = 0; i < splitName.length; i ++) {
+        imageText += splitName[i][0];
+      }
+      this.imageText = imageText;
+    }
+  }
 }

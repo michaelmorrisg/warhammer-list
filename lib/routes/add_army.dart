@@ -82,8 +82,10 @@ class _AddArmyState extends State<AddArmy> {
                                         FlatButton(
                                           child: Text('Create'),
                                           onPressed: () {
-                                            StatItem newStatItem = StatItem(
-                                                id: 6, color: Colors.cyan, );
+                                            StatItem newStatItem = StatItem(name: name);
+                                                setState(() {
+                                                  selectedStatItems.add(newStatItem);
+                                                });
                                             Navigator.pop(context);
                                             Navigator.push(
                                               context,

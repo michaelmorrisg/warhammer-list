@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 
 class StatItemList {
   List<StatItem> statItemList = [
-    StatItem(id: 1, color: Colors.pink, imageText: 'PH', name: 'Pink Horror', movement: '6"', ballisticSkill: '3+', weaponSkill: '4+', strength: '3', toughness: '3', save: '5+', leadership: '7', attacks: '1', wounds: '1'),
-    StatItem(id: 2, color: Colors.blue, imageText: 'BH', name: 'Blue Horror'),
-    StatItem(id: 3, color: Colors.orange, imageText: 'F', name: 'Flamer'),
-    StatItem(id: 4, color: Colors.red, imageText: 'LOC', name: 'Lord of Change'),
-    StatItem(id: 5, color: Colors.purple, imageText: 'DP', name: 'Demon Prince'),
+    StatItem(id: 1, color: Colors.pink, name: 'Pink Horror', movement: '6"', ballisticSkill: '3+', weaponSkill: '4+', strength: '3', toughness: '3', save: '5+', leadership: '7', attacks: '1', wounds: '1'),
+    StatItem(id: 2, color: Colors.blue, name: 'Blue Horror'),
+    StatItem(id: 3, color: Colors.orange, name: 'Flamer'),
+    StatItem(id: 4, color: Colors.red, name: 'Lord of Change'),
+    StatItem(id: 5, color: Colors.purple, name: 'Demon Prince'),
   ];
 
   filterList(List selectedStatItems) {
@@ -16,7 +16,7 @@ class StatItemList {
       list.removeWhere((statItem) => statItem.id == selectedStatItems[i].id);
     }
     var filteredList = list.toList();
-    filteredList.insert(0, StatItem(id: 0, color: Colors.blue[900], imageText: '+', name:'Add New'));
+    filteredList.insert(0, StatItem(id: 0, color: Colors.blue[900], name:'Add New'));
     return filteredList;
   }
 
