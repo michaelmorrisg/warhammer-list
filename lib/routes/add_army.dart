@@ -101,6 +101,7 @@ class _AddArmyState extends State<AddArmy> {
                                                 builder: (context) =>
                                                     AddStatItem(
                                                   statItem: newStatItem,
+                                                  isNew: true
                                                 ),
                                               ),
                                             );

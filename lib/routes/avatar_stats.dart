@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../classes/stat_item.dart';
+import '../routes/add_stat_item.dart';
 
 class AvatarStats extends StatefulWidget {
   final StatItem statItem;
@@ -11,7 +12,24 @@ class _AvatarStatsState extends State<AvatarStats> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.statItem.name)),
+      appBar: AppBar(
+        title: Text(widget.statItem.name),
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(Icons.edit),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AddStatItem(
+                      statItem: widget.statItem,
+                      isNew: false
+                    ),
+                  ),
+                );
+              }),
+        ],
+      ),
       body: Table(border: TableBorder.all(), children: [
         TableRow(children: [
           CellWidget(stat: widget.statItem.movement, title: 'M'),
