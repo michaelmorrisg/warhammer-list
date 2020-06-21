@@ -23,7 +23,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  localstorage: ^3.0.2+5
   random_color: ^1.0.5
 
 
