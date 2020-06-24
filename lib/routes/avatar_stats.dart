@@ -9,42 +9,51 @@ class AvatarStats extends StatefulWidget {
 }
 
 class _AvatarStatsState extends State<AvatarStats> {
+    StatItem statItem;
+
+  initState() {
+    statItem = widget.statItem;
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.statItem.name),
+        title: Text(statItem.name),
         actions: <Widget>[
           IconButton(
               icon: Icon(Icons.edit),
-              onPressed: () {
-                Navigator.push(
+              onPressed: () async {
+                StatItem updatedData = await Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => AddStatItem(
-                      statItem: widget.statItem,
+                      statItem: statItem,
                       isNew: false
                     ),
                   ),
                 );
+                setState(() {
+                  statItem = updatedData;
+                });
               }),
         ],
       ),
       body: Table(border: TableBorder.all(), children: [
         TableRow(children: [
-          CellWidget(stat: widget.statItem.movement, title: 'M'),
-          CellWidget(stat: widget.statItem.weaponSkill, title: 'WS'),
-          CellWidget(stat: widget.statItem.ballisticSkill, title: 'BS'),
+          CellWidget(stat: statItem.movement, title: 'M'),
+          CellWidget(stat: statItem.weaponSkill, title: 'WS'),
+          CellWidget(stat: statItem.ballisticSkill, title: 'BS'),
         ]),
         TableRow(children: [
-          CellWidget(stat: widget.statItem.strength, title: 'S'),
-          CellWidget(stat: widget.statItem.toughness, title: 'T'),
-          CellWidget(stat: widget.statItem.wounds, title: 'W'),
+          CellWidget(stat: statItem.strength, title: 'S'),
+          CellWidget(stat: statItem.toughness, title: 'T'),
+          CellWidget(stat: statItem.wounds, title: 'W'),
         ]),
         TableRow(children: [
-          CellWidget(stat: widget.statItem.attacks, title: 'A'),
-          CellWidget(stat: widget.statItem.leadership, title: 'Ld'),
-          CellWidget(stat: widget.statItem.save, title: 'Sa'),
+          CellWidget(stat: statItem.attacks, title: 'A'),
+          CellWidget(stat: statItem.leadership, title: 'Ld'),
+          CellWidget(stat: statItem.save, title: 'Sa'),
         ]),
       ]),
     );
