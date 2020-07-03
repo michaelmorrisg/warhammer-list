@@ -54,7 +54,7 @@ class _MainScreenState extends State<MainScreen> {
                         onPressed: () {
                           Army newArmy = Army(name: newName, statItems: []);
                           setState(() {
-                            // armyList.armyList.add(newArmy);
+                            armyList.add(newArmy);
                             DatabaseHelper.instance.insert({'name': newName});
                           });
                           Navigator.pop(context);
