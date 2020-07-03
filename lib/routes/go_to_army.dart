@@ -17,7 +17,7 @@ class _GoToArmyState extends State<GoToArmy> {
     List selectedStatItems = widget.army.statItems;
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.army.title),
+        title: Text(widget.army.name),
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 15.0),

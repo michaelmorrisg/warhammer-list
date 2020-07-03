@@ -1,18 +1,32 @@
 import 'package:flutter/material.dart';
-import '../classes/army_list.dart';
 import 'add_army.dart';
 import '../classes/army.dart';
 import 'go_to_army.dart';
+import '../db/database_helper.dart';
 
 class MainScreen extends StatefulWidget {
   _MainScreenState createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
-  ArmyList armyList = ArmyList();
-  dynamic title = '';
+  List armyList;
+  dynamic newName = '';
   @override
+  void initState() {
+    DatabaseHelper.instance.queryAll().then((result) {
+      List<Army> newList = [];
+      for(var i = 0; i < result.length; i ++) {
+        newList.add(Army(name: result[i]['name'], statItems: []));
+      }
+      setState(() {
+        armyList = newList;
+      });
+    });
+  }
   Widget build(BuildContext context) {
+    if (armyList == null) {
+      return Scaffold();
+    }
     return Scaffold(
       floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
@@ -26,16 +40,19 @@ class _MainScreenState extends State<MainScreen> {
                     content: TextField(
                       decoration: InputDecoration(labelText: 'Name'),
                       onChanged: (input) {
-                        title = input;
+                        newName = input;
                       },
                     ),
                     actions: <Widget>[
                       FlatButton(
                         child: Text('Create'),
                         onPressed: () {
-                          Army newArmy = Army(title: title, statItems: []);
+                          Army newArmy = Army(name: newName, statItems: []);
                           setState(() {
-                            armyList.armyList.add(newArmy);
+                            // armyList.armyList.add(newArmy);
+                            DatabaseHelper.instance.insert({
+                              'name': newName
+                            });
                           });
                           Navigator.pop(context);
                           Navigator.push(
@@ -53,11 +70,11 @@ class _MainScreenState extends State<MainScreen> {
                 });
           }),
       body: ListView.builder(
-          itemCount: armyList.armyList.length,
+          itemCount: armyList.length,
           itemBuilder: (BuildContext context, index) {
             return Card(
               child: ListTile(
-                  title: Text(armyList.armyList[index].title,
+                  title: Text(armyList[index].name,
                       style: TextStyle(
                           fontSize: 20.0, fontWeight: FontWeight.w700)),
                   trailing: Row(
@@ -70,7 +87,7 @@ class _MainScreenState extends State<MainScreen> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => AddArmy(
-                                        army: armyList.armyList[index])));
+                                        army: armyList[index])));
                           }),
                       IconButton(
                           icon: Icon(Icons.delete),
@@ -93,7 +110,7 @@ class _MainScreenState extends State<MainScreen> {
                                         child: Text('Delete'),
                                         onPressed: () {
                                           setState(() {
-                                            armyList.armyList.removeAt(index);
+                                            armyList.removeAt(index);
                                             Navigator.pop(context);
                                           });
                                         },
@@ -109,7 +126,7 @@ class _MainScreenState extends State<MainScreen> {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                GoToArmy(army: armyList.armyList[index])));
+                                GoToArmy(army: armyList[index])));
                   }),
             );
           }),

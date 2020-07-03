@@ -41,19 +41,19 @@ class _AvatarStatsState extends State<AvatarStats> {
       ),
       body: Table(border: TableBorder.all(), children: [
         TableRow(children: [
-          CellWidget(stat: statItem.movement, title: 'M'),
-          CellWidget(stat: statItem.weaponSkill, title: 'WS'),
-          CellWidget(stat: statItem.ballisticSkill, title: 'BS'),
+          CellWidget(stat: statItem.movement == null ? '0' : statItem.movement, title: 'M'),
+          CellWidget(stat: statItem.weaponSkill == null ? '0' : statItem.weaponSkill, title: 'WS'),
+          CellWidget(stat: statItem.ballisticSkill == null ? '0' : statItem.ballisticSkill, title: 'BS'),
         ]),
         TableRow(children: [
-          CellWidget(stat: statItem.strength, title: 'S'),
-          CellWidget(stat: statItem.toughness, title: 'T'),
-          CellWidget(stat: statItem.wounds, title: 'W'),
+          CellWidget(stat: statItem.strength == null ? '0' : statItem.strength, title: 'S'),
+          CellWidget(stat: statItem.toughness == null ? '0' : statItem.toughness, title: 'T'),
+          CellWidget(stat: statItem.wounds == null ? '0' : statItem.wounds, title: 'W'),
         ]),
         TableRow(children: [
-          CellWidget(stat: statItem.attacks, title: 'A'),
-          CellWidget(stat: statItem.leadership, title: 'Ld'),
-          CellWidget(stat: statItem.save, title: 'Sa'),
+          CellWidget(stat: statItem.attacks == null ? '0' : statItem.attacks, title: 'A'),
+          CellWidget(stat: statItem.leadership == null ? '0' : statItem.leadership, title: 'Ld'),
+          CellWidget(stat: statItem.save == null ? '0' : statItem.save, title: 'Sa'),
         ]),
       ]),
     );

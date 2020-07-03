@@ -16,7 +16,7 @@ class StatItemList {
       list.removeWhere((statItem) => statItem.id == selectedStatItems[i].id);
     }
     var filteredList = list.toList();
-    filteredList.insert(0, StatItem(id: 0, color: Colors.blue[900], name:'Add New'));
+    filteredList.insert(0, StatItem(id: 0, color: Colors.amberAccent, name:'Add New'));
     return filteredList;
   }
 

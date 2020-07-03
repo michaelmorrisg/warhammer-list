@@ -1,7 +1,7 @@
 import 'stat_item.dart';
 class Army {
-  String title;
+  String name;
   List<StatItem> statItems;
 
-  Army({this.title, this.statItems});
+  Army({this.name, this.statItems});
 }

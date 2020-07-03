@@ -24,6 +24,8 @@ dependencies:
   flutter:
     sdk: flutter
   random_color: ^1.0.5
+  sqflite: 
+  path_provider:
 
 
   # The following adds the Cupertino Icons font to your application.

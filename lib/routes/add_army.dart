@@ -25,14 +25,14 @@ class _AddArmyState extends State<AddArmy> {
     var filteredStatItemList = statItemList.filterList(selectedStatItems);
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.army.title),
+        title: Text(widget.army.name),
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 15.0),
         child: Column(
           children: <Widget>[
             Expanded(
-              flex: 4,
+              flex: 6,
               child: GridView.builder(
                   itemCount: selectedStatItems.length,
                   gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
@@ -57,7 +57,7 @@ class _AddArmyState extends State<AddArmy> {
                   }),
             ),
             Expanded(
-                flex: 1,
+                flex: 2,
                 child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: filteredStatItemList.length,
