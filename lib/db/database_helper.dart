@@ -37,6 +37,26 @@ class DatabaseHelper {
       )
       '''
     );
+
+    db.execute(
+      '''
+      CREATE TABLE stat-item (
+      id INTEGER PRIMARY KEY,
+      color TEXT;
+      name TEXT;
+      imageText TEXT;
+      movement TEXT;
+      weaponSkill TEXT;
+      ballisticSkill TEXT;
+      strength TEXT;
+      toughness TEXT;
+      wounds TEXT;
+      attacks TEXT;
+      leadership TEXT;
+      save TEXT;
+    )
+    '''
+    );
   }
 
   Future <int> insert(Map<String,dynamic> row) async {
