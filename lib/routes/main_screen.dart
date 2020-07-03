@@ -15,7 +15,7 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     DatabaseHelper.instance.queryAll().then((result) {
       List<Army> newList = [];
-      for(var i = 0; i < result.length; i ++) {
+      for (var i = 0; i < result.length; i++) {
         newList.add(Army(name: result[i]['name'], statItems: []));
       }
       setState(() {
@@ -23,9 +23,14 @@ class _MainScreenState extends State<MainScreen> {
       });
     });
   }
+
   Widget build(BuildContext context) {
     if (armyList == null) {
-      return Scaffold();
+      return Scaffold(
+          body: Container(
+            alignment: Alignment(0,0),
+        child: Text('Loading...'),
+      ));
     }
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -50,9 +55,7 @@ class _MainScreenState extends State<MainScreen> {
                           Army newArmy = Army(name: newName, statItems: []);
                           setState(() {
                             // armyList.armyList.add(newArmy);
-                            DatabaseHelper.instance.insert({
-                              'name': newName
-                            });
+                            DatabaseHelper.instance.insert({'name': newName});
                           });
                           Navigator.pop(context);
                           Navigator.push(
@@ -86,8 +89,8 @@ class _MainScreenState extends State<MainScreen> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => AddArmy(
-                                        army: armyList[index])));
+                                    builder: (context) =>
+                                        AddArmy(army: armyList[index])));
                           }),
                       IconButton(
                           icon: Icon(Icons.delete),
