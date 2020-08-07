@@ -13,10 +13,11 @@ class _MainScreenState extends State<MainScreen> {
   dynamic newName = '';
   @override
   void initState() {
-    DatabaseHelper.instance.queryAll().then((result) {
+    super.initState();
+    DatabaseHelper.instance.queryAll('army').then((result) {
       List<Army> newList = [];
       for (var i = 0; i < result.length; i++) {
-        newList.add(Army(name: result[i]['name'], statItems: []));
+        newList.add(Army(id: result[i]['id'], name: result[i]['name'], statItems: []));
       }
       setState(() {
         armyList = newList;
@@ -55,7 +56,9 @@ class _MainScreenState extends State<MainScreen> {
                           Army newArmy = Army(name: newName, statItems: []);
                           setState(() {
                             armyList.add(newArmy);
-                            DatabaseHelper.instance.insert({'name': newName});
+                            DatabaseHelper.instance.insert('army', {'name': newName}).then((id) => {
+                              newArmy.id = id
+                              });
                           });
                           Navigator.pop(context);
                           Navigator.push(
@@ -113,6 +116,7 @@ class _MainScreenState extends State<MainScreen> {
                                         child: Text('Delete'),
                                         onPressed: () {
                                           setState(() {
+                                            DatabaseHelper.instance.delete('army', armyList[index].id);
                                             armyList.removeAt(index);
                                             Navigator.pop(context);
                                           });

@@ -59,25 +59,25 @@ class DatabaseHelper {
     );
   }
 
-  Future <int> insert(Map<String,dynamic> row) async {
+  Future <int> insert(String table, Map<String,dynamic> row) async {
     Database db = await instance.database;
-    return await db.insert('army', row); //need to make 'army' dynamic once we figure this out
+    return await db.insert(table, row); //need to make 'army' dynamic once we figure this out
   }
 
-  Future<List<Map<String,dynamic>>> queryAll() async {
+  Future<List<Map<String,dynamic>>> queryAll(String table) async {
     Database db = await instance.database;
-    return await db.query('army'); //same here
+    return await db.query(table); //same here
   }
 
-  Future<int> update(Map<String,dynamic> row) async {
+  Future<int> update(String table, Map<String,dynamic> row) async {
     Database db = await instance.database;
     int id = row['id'];
-    return await db.update('army', row, where: 'id = ?', whereArgs: [id]);
+    return await db.update(table, row, where: 'id = ?', whereArgs: [id]);
   }
 
-  Future<int>  delete(int id) async {
+  Future<int>  delete(String table, int id) async {
     Database db = await instance.database;
-    return await db.delete('army', where: 'id = ?', whereArgs: [id]);
+    return await db.delete(table, where: 'id = ?', whereArgs: [id]);
   }
 
 }
