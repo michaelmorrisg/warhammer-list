@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class StatItem {
   int id;
-  Color color;
+  int color;
   String name;
   String imageText;
   String movement;
@@ -14,6 +14,7 @@ class StatItem {
   String attacks;
   String leadership;
   String save;
+  Color displayColor;
 
   StatItem({this.id, this.color, this.name, this.movement, this.weaponSkill, this.ballisticSkill, this.strength, this.toughness, this.wounds, this.attacks, this.leadership, this.save}) {
     if (this.id == 0) {
@@ -25,6 +26,12 @@ class StatItem {
         imageText += splitName[i][0];
       }
       this.imageText = imageText;
+    }
+    if (this.color != null) {
+      print(this.color);
+      this.displayColor = Color(this.color);
+    } else {
+      this.displayColor = Colors.blue;
     }
   }
 }

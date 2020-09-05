@@ -11,7 +11,7 @@ class GoToArmy extends StatefulWidget {
 }
 
 class _GoToArmyState extends State<GoToArmy> {
-  StatItemList statItemList = StatItemList();
+  // StatItemList statItemList = StatItemList();
   @override
   Widget build(BuildContext context) {
     List selectedStatItems = widget.army.statItems;

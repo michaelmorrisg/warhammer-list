@@ -28,8 +28,8 @@ class DatabaseHelper {
     return await openDatabase(path, version: _dbVersion, onCreate: _onCreate);
   }
 
-  Future _onCreate(Database db, int version) {
-    db.execute(
+  Future _onCreate(Database db, int version) async {
+    await db.execute(
       '''
       CREATE TABLE army (
         id INTEGER PRIMARY KEY,
@@ -38,22 +38,22 @@ class DatabaseHelper {
       '''
     );
 
-    db.execute(
+    await db.execute(
       '''
-      CREATE TABLE stat-item (
+      CREATE TABLE statItem (
       id INTEGER PRIMARY KEY,
-      color TEXT;
-      name TEXT;
-      imageText TEXT;
-      movement TEXT;
-      weaponSkill TEXT;
-      ballisticSkill TEXT;
-      strength TEXT;
-      toughness TEXT;
-      wounds TEXT;
-      attacks TEXT;
-      leadership TEXT;
-      save TEXT;
+      color INTEGER,
+      name TEXT,
+      imageText TEXT,
+      movement TEXT,
+      weaponSkill TEXT,
+      ballisticSkill TEXT,
+      strength TEXT,
+      toughness TEXT,
+      wounds TEXT,
+      attacks TEXT,
+      leadership TEXT,
+      save TEXT
     )
     '''
     );
