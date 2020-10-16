@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../classes/stat_item.dart';
+import '../db/database_helper.dart';
 
 class AddStatItem extends StatefulWidget {
   final StatItem statItem;
@@ -20,6 +21,7 @@ class _AddStatItemState extends State<AddStatItem> {
   Widget build(BuildContext context) {
     return WillPopScope(
         onWillPop: () async {
+          DatabaseHelper.instance.update('statItem', statItem.toMap());
           Navigator.pop(context, statItem);
           return false;
         } ,

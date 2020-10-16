@@ -28,10 +28,27 @@ class StatItem {
       this.imageText = imageText;
     }
     if (this.color != null) {
-      print(this.color);
       this.displayColor = Color(this.color);
     } else {
       this.displayColor = Colors.blue;
     }
+  }
+
+    Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'color': color,
+      'name': name,
+      'imageText': imageText,
+      'movement': movement,
+      'weaponSkill': weaponSkill,
+      'ballisticSkill': ballisticSkill,
+      'strength': strength,
+      'toughness': toughness,
+      'wounds': wounds,
+      'attacks': attacks,
+      'leadership': leadership,
+      'save': save,
+    };
   }
 }

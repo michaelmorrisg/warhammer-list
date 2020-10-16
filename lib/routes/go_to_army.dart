@@ -47,7 +47,7 @@ class _GoToArmyState extends State<GoToArmy> {
                           id: selectedStatItems[index].id,
                           imageText: selectedStatItems[index].imageText,
                           name: selectedStatItems[index].name,
-                          color: selectedStatItems[index].color)
+                          color: selectedStatItems[index].displayColor)
                     );
                   }),
             ),
