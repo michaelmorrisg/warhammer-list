@@ -14,27 +14,50 @@ class AddArmy extends StatefulWidget {
 }
 
 class _AddArmyState extends State<AddArmy> {
-  // StatItemList statItemList = StatItemList();
   StatItemList statItemList;
+  List selectedItemList;
   RandomColor randomColor = RandomColor();
   @override
   void initState() {
     super.initState();
       DatabaseHelper.instance.queryAll('statItem').then((result) {
-        print(result);
       StatItemList dbStatItemList = StatItemList(result);
 
       setState(() {
         statItemList = dbStatItemList;
       });
     });
+
+    DatabaseHelper.instance.specialQuery(widget.army.id).then((result) {
+      List<StatItem> selectedStatItems = [];
+      for (var i = 0; i < result.length; i ++) {
+        selectedStatItems.add(StatItem(
+          id: result[i]['statItemId'],
+          color: result[i]['color'],
+          name: result[i]['name'],
+          movement: result[i]['movement'],
+          ballisticSkill: result[i]['ballisticSkill'],
+          weaponSkill: result[i]['weaponSkill'],
+          strength: result[i]['strength'],
+          toughness: result[i]['toughness'],
+          save: result[i]['save'],
+          leadership: result[i]['leadership'],
+          attacks: result[i]['attacks'],
+          wounds: result[i]['wounds']
+        ));
+      }
+      setState(() {
+        selectedItemList = selectedStatItems;
+      });
+    });
   }
   Widget build(BuildContext context) {
     dynamic name = '';
-    List selectedStatItems = widget.army.statItems;
-    if (statItemList == null) {
+    // List selectedStatItems = widget.army.statItems;
+    if (statItemList == null || selectedItemList == null) {
       return Scaffold();
     } else {
+      List selectedStatItems = selectedItemList;
       var filteredStatItemList = statItemList.filterList(selectedStatItems);
       return Scaffold(
         appBar: AppBar(
@@ -57,8 +80,8 @@ class _AddArmyState extends State<AddArmy> {
                       return GestureDetector(
                           onTap: () {
                             setState(() {
-                              StatItem removedAvatar =
-                                  selectedStatItems.removeAt(index);
+                              StatItem removedAvatar = selectedStatItems.removeAt(index);
+                              DatabaseHelper.instance.pivotDelete('armyStatItemPivot', removedAvatar.id, widget.army.id);
                               statItemList.statItemList.add(removedAvatar);
                             });
                           },
@@ -107,8 +130,9 @@ class _AddArmyState extends State<AddArmy> {
                                                               );
                                               setState(() {
                                                 // make this go to DB as well?
-                                                DatabaseHelper.instance.insert('statItem', {'name': name, 'color': 4292149248}).then((id) => {
-                                                  newStatItem.id = id
+                                                DatabaseHelper.instance.insert('statItem', {'name': name, 'color': 4292149248}).then((id) {
+                                                  newStatItem.id = id;
+                                                  DatabaseHelper.instance.insert('armyStatItemPivot', {'statItemId': newStatItem.id, 'armyId': widget.army.id});
                                                 });
                                                 selectedStatItems
                                                     .add(newStatItem);
@@ -130,8 +154,8 @@ class _AddArmyState extends State<AddArmy> {
                                       );
                                     });
                               } else {
-                                StatItem removedAvatar =
-                                    filteredStatItemList.removeAt(index);
+                                StatItem removedAvatar = filteredStatItemList.removeAt(index);
+                                DatabaseHelper.instance.insert('armyStatItemPivot', {'statItemId': removedAvatar.id, 'armyId': widget.army.id});
                                 selectedStatItems.add(removedAvatar);
                               }
                             });

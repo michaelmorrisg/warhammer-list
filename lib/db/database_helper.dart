@@ -57,11 +57,22 @@ class DatabaseHelper {
     )
     '''
     );
+
+    await db.execute(
+      '''
+      CREATE TABLE armyStatItemPivot (
+      statItemId INTEGER,
+      armyId INTEGER,
+      FOREIGN KEY (statItemId) REFERENCES statItem (id) ON DELETE NO ACTION ON UPDATE NO ACTION,
+      FOREIGN KEY (armyId) REFERENCES army (id) ON DELETE NO ACTION ON UPDATE NO ACTION
+      )
+      '''
+    );
   }
 
   Future <int> insert(String table, Map<String,dynamic> row) async {
     Database db = await instance.database;
-    return await db.insert(table, row); //need to make 'army' dynamic once we figure this out
+    return await db.insert(table, row);
   }
 
   Future<List<Map<String,dynamic>>> queryAll(String table) async {
@@ -78,6 +89,16 @@ class DatabaseHelper {
   Future<int>  delete(String table, int id) async {
     Database db = await instance.database;
     return await db.delete(table, where: 'id = ?', whereArgs: [id]);
+  }
+
+  Future<int>  pivotDelete(String table, int itemId, int armyId) async {
+    Database db = await instance.database;
+    return await db.delete(table, where: 'statItemId = ? AND armyId = ?', whereArgs: [itemId, armyId]);
+  }
+
+  Future<List> specialQuery(int armyId) async {
+    Database db = await instance.database;
+    return await db.rawQuery('SELECT * FROM armyStatItemPivot JOIN statItem ON armyStatItemPivot.statItemId = statItem.id WHERE armyId = ? ', [armyId]);
   }
 
 }

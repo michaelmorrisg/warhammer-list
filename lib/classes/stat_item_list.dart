@@ -31,7 +31,7 @@ class StatItemList {
     // StatItem(id: 5, color: Colors.purple, name: 'Demon Prince'),
   // ];
 
-  filterList(List selectedStatItems) {
+  filterList(List<StatItem> selectedStatItems) {
     var list = this.statItemList;
     for (var i = 0; i < selectedStatItems.length; i ++) {
       list.removeWhere((statItem) => statItem.id == selectedStatItems[i].id);
