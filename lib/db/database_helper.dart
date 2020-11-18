@@ -96,6 +96,11 @@ class DatabaseHelper {
     return await db.delete(table, where: 'statItemId = ? AND armyId = ?', whereArgs: [itemId, armyId]);
   }
 
+  Future<int>  pivotDeleteArmy(String table, int armyId) async {
+    Database db = await instance.database;
+    return await db.delete(table, where: 'armyId = ?', whereArgs: [armyId]);
+  }
+
   Future<List> specialQuery(int armyId) async {
     Database db = await instance.database;
     return await db.rawQuery('SELECT * FROM armyStatItemPivot JOIN statItem ON armyStatItemPivot.statItemId = statItem.id WHERE armyId = ? ', [armyId]);

@@ -117,6 +117,7 @@ class _MainScreenState extends State<MainScreen> {
                                         onPressed: () {
                                           setState(() {
                                             DatabaseHelper.instance.delete('army', armyList[index].id);
+                                            DatabaseHelper.instance.pivotDeleteArmy('armyStatItemPivot', armyList[index].id);
                                             armyList.removeAt(index);
                                             Navigator.pop(context);
                                           });
