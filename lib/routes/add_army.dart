@@ -20,6 +20,7 @@ class _AddArmyState extends State<AddArmy> {
   @override
   void initState() {
     super.initState();
+    // Get all StatItems from DB
       DatabaseHelper.instance.queryAll('statItem').then((result) {
       StatItemList dbStatItemList = StatItemList(result);
 
@@ -27,7 +28,7 @@ class _AddArmyState extends State<AddArmy> {
         statItemList = dbStatItemList;
       });
     });
-
+    // Get StatItems tied to this Army from DB
     DatabaseHelper.instance.specialQuery(widget.army.id).then((result) {
       List<StatItem> selectedStatItems = [];
       for (var i = 0; i < result.length; i ++) {
@@ -53,7 +54,6 @@ class _AddArmyState extends State<AddArmy> {
   }
   Widget build(BuildContext context) {
     dynamic name = '';
-    // List selectedStatItems = widget.army.statItems;
     if (statItemList == null || selectedItemList == null) {
       return Scaffold();
     } else {
@@ -89,7 +89,7 @@ class _AddArmyState extends State<AddArmy> {
                               id: selectedStatItems[index].id,
                               imageText: selectedStatItems[index].imageText,
                               name: selectedStatItems[index].name,
-                              color: selectedStatItems[index].displayColor));
+                              color: selectedStatItems[index].color));
                     }),
               ),
               Expanded(
@@ -120,17 +120,13 @@ class _AddArmyState extends State<AddArmy> {
                                           FlatButton(
                                             child: Text('Create'),
                                             onPressed: () {
+                                              String randomColorCode = getColorNameFromColor(randomColor.randomColor(colorBrightness: ColorBrightness.dark, colorHue: ColorHue.multiple(colorHues: [ColorHue.blue, ColorHue.green]))).getCode;
                                               StatItem newStatItem = StatItem(
-                                                  name: name,
-                                                  color: 4292149248
-                                                  // randomColor.randomColor(
-                                                  //     colorSaturation:
-                                                  //         ColorSaturation
-                                                  //             .highSaturation)
-                                                              );
+                                                name: name,
+                                                color: randomColorCode
+                                              );
                                               setState(() {
-                                                // make this go to DB as well?
-                                                DatabaseHelper.instance.insert('statItem', {'name': name, 'color': 4292149248}).then((id) {
+                                                DatabaseHelper.instance.insert('statItem', {'name': name, 'color': randomColorCode}).then((id) {
                                                   newStatItem.id = id;
                                                   DatabaseHelper.instance.insert('armyStatItemPivot', {'statItemId': newStatItem.id, 'armyId': widget.army.id});
                                                 });
@@ -164,7 +160,7 @@ class _AddArmyState extends State<AddArmy> {
                               id: filteredStatItemList[index].id,
                               imageText: filteredStatItemList[index].imageText,
                               name: filteredStatItemList[index].name,
-                              color: filteredStatItemList[index].displayColor),
+                              color: filteredStatItemList[index].color),
                         );
                       })),
             ],

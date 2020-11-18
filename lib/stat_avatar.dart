@@ -14,7 +14,7 @@ class StatAvatar extends StatelessWidget {
       child: Column(
         children: <Widget>[
           CircleAvatar(
-            backgroundColor: this.color,
+            backgroundColor: Color(int.parse('0xFF${this.color}')),
             radius: 40.0,
             child: this.imageText != null ? Text(this.imageText) : Icon(Icons.add),
           ),

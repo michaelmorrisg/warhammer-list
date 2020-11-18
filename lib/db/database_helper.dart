@@ -42,7 +42,7 @@ class DatabaseHelper {
       '''
       CREATE TABLE statItem (
       id INTEGER PRIMARY KEY,
-      color INTEGER,
+      color TEXT,
       name TEXT,
       imageText TEXT,
       movement TEXT,
