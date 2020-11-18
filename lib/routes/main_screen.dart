@@ -75,7 +75,7 @@ class _MainScreenState extends State<MainScreen> {
                   );
                 });
           }),
-      body: ListView.builder(
+      body: armyList.length > 0 ? ListView.builder(
           itemCount: armyList.length,
           itemBuilder: (BuildContext context, index) {
             return Card(
@@ -136,7 +136,7 @@ class _MainScreenState extends State<MainScreen> {
                                 GoToArmy(army: armyList[index])));
                   }),
             );
-          }),
+          }) : Center(child: Text('You have no armies. Click the + to add one.')),
     );
   }
 }

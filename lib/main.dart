@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         brightness: Brightness.dark,
         primaryColor: Colors.blueGrey,
-        accentColor: Colors.amberAccent,
+        accentColor: Color(0xFFFFAB00),
         fontFamily: 'RobotoCondensed',
       ),
       initialRoute: '/',
