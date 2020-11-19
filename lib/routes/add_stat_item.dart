@@ -8,13 +8,11 @@ class AddStatItem extends StatefulWidget {
   final StatItem statItem;
   final bool isNew;
   final Army currentArmy;
-  final List<StatItem> selectedStatItems;
   const AddStatItem(
       {Key key,
       @required this.statItem,
       this.isNew,
-      this.currentArmy,
-      this.selectedStatItems})
+      this.currentArmy})
       : super(key: key);
   _AddStatItemState createState() => _AddStatItemState();
 }
@@ -27,7 +25,6 @@ class _AddStatItemState extends State<AddStatItem> {
   initState() {
     statItem = widget.statItem;
     currentArmy = widget.currentArmy;
-    selectedStatItems = widget.selectedStatItems;
     super.initState();
   }
 

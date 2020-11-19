@@ -71,7 +71,6 @@ class _GoToArmyState extends State<GoToArmy> {
                                   builder: (context) => AvatarStats(
                                     statItem: selectedStatItems[index],
                                     currentArmy: widget.army,
-                                    selectedStatItems: selectedStatItems
                                   ),
                                 ));
                           },

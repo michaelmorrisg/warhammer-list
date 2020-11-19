@@ -6,8 +6,7 @@ import '../classes/army.dart';
 class AvatarStats extends StatefulWidget {
   final StatItem statItem;
   final Army currentArmy;
-  final List<StatItem>selectedStatItems;
-  const AvatarStats({Key key, @required this.statItem, this.currentArmy, this.selectedStatItems}) : super(key: key);
+  const AvatarStats({Key key, @required this.statItem, this.currentArmy}) : super(key: key);
   _AvatarStatsState createState() => _AvatarStatsState();
 }
 
@@ -19,7 +18,6 @@ class _AvatarStatsState extends State<AvatarStats> {
   initState() {
     statItem = widget.statItem;
     currentArmy = widget.currentArmy;
-    selectedStatItems = widget.selectedStatItems;
 
     super.initState();
   }
@@ -39,7 +37,6 @@ class _AvatarStatsState extends State<AvatarStats> {
                       statItem: statItem,
                       isNew: false,
                       currentArmy: currentArmy,
-                      selectedStatItems: selectedStatItems
                     ),
                   ),
                 );
