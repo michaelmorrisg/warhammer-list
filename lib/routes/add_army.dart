@@ -21,7 +21,7 @@ class _AddArmyState extends State<AddArmy> {
   void initState() {
     super.initState();
     // Get all StatItems from DB
-      DatabaseHelper.instance.queryAll('statItem').then((result) {
+    DatabaseHelper.instance.queryAll('statItem').then((result) {
       StatItemList dbStatItemList = StatItemList(result);
 
       setState(() {
@@ -31,27 +31,27 @@ class _AddArmyState extends State<AddArmy> {
     // Get StatItems tied to this Army from DB
     DatabaseHelper.instance.specialQuery(widget.army.id).then((result) {
       List<StatItem> selectedStatItems = [];
-      for (var i = 0; i < result.length; i ++) {
+      for (var i = 0; i < result.length; i++) {
         selectedStatItems.add(StatItem(
-          id: result[i]['statItemId'],
-          color: result[i]['color'],
-          name: result[i]['name'],
-          movement: result[i]['movement'],
-          ballisticSkill: result[i]['ballisticSkill'],
-          weaponSkill: result[i]['weaponSkill'],
-          strength: result[i]['strength'],
-          toughness: result[i]['toughness'],
-          save: result[i]['save'],
-          leadership: result[i]['leadership'],
-          attacks: result[i]['attacks'],
-          wounds: result[i]['wounds']
-        ));
+            id: result[i]['statItemId'],
+            color: result[i]['color'],
+            name: result[i]['name'],
+            movement: result[i]['movement'],
+            ballisticSkill: result[i]['ballisticSkill'],
+            weaponSkill: result[i]['weaponSkill'],
+            strength: result[i]['strength'],
+            toughness: result[i]['toughness'],
+            save: result[i]['save'],
+            leadership: result[i]['leadership'],
+            attacks: result[i]['attacks'],
+            wounds: result[i]['wounds']));
       }
       setState(() {
         selectedItemList = selectedStatItems;
       });
     });
   }
+
   Widget build(BuildContext context) {
     dynamic name = '';
     if (statItemList == null || selectedItemList == null) {
@@ -69,33 +69,50 @@ class _AddArmyState extends State<AddArmy> {
             children: <Widget>[
               Expanded(
                 flex: 8,
-                child: selectedStatItems.length > 0 ? GridView.builder(
-                    itemCount: selectedStatItems.length,
-                    gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisSpacing: 10,
-                      crossAxisCount: 3,
-                      childAspectRatio: 1,
-                    ),
-                    itemBuilder: (BuildContext context, index) {
-                      return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              StatItem removedAvatar = selectedStatItems.removeAt(index);
-                              DatabaseHelper.instance.pivotDelete('armyStatItemPivot', removedAvatar.id, widget.army.id);
-                              statItemList.statItemList.add(removedAvatar);
-                            });
-                          },
-                          child: StatAvatar(
-                              id: selectedStatItems[index].id,
-                              imageText: selectedStatItems[index].imageText,
-                              name: selectedStatItems[index].name,
-                              color: selectedStatItems[index].color));
-                    }) : Center(child: Text('Add units to the army by clicking the + or circles below.')),
+                child: selectedStatItems.length > 0
+                    ? GridView.builder(
+                        itemCount: selectedStatItems.length,
+                        gridDelegate:
+                            new SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisSpacing: 10,
+                          crossAxisCount: 3,
+                          childAspectRatio: 1,
+                        ),
+                        itemBuilder: (BuildContext context, index) {
+                          return GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  StatItem removedAvatar =
+                                      selectedStatItems.removeAt(index);
+                                  DatabaseHelper.instance.pivotDelete(
+                                      'armyStatItemPivot',
+                                      removedAvatar.id,
+                                      widget.army.id);
+                                  statItemList.statItemList.add(removedAvatar);
+                                });
+                              },
+                              child: StatAvatar(
+                                  id: selectedStatItems[index].id,
+                                  imageText: selectedStatItems[index].imageText,
+                                  name: selectedStatItems[index].name,
+                                  color: selectedStatItems[index].color));
+                        })
+                    : Center(
+                        child: Text(
+                            'Add units to the army by clicking the + or circles below.')),
               ),
               Expanded(
                   flex: 2,
                   child: Container(
-                    color: Colors.grey[800],
+                    decoration: BoxDecoration(
+                        color: Colors.grey[800],
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                            color: Colors.black,
+                            offset: Offset(0.0, 6.0),
+                            blurRadius: 30.0,
+                          )
+                        ]),
                     child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount: filteredStatItemList.length,
@@ -112,8 +129,8 @@ class _AddArmyState extends State<AddArmy> {
                                           title: Text(
                                               'What do you want to name your new stat item?'),
                                           content: TextField(
-                                            decoration:
-                                                InputDecoration(labelText: 'Name'),
+                                            decoration: InputDecoration(
+                                                labelText: 'Name'),
                                             onChanged: (input) {
                                               name = input;
                                             },
@@ -122,15 +139,37 @@ class _AddArmyState extends State<AddArmy> {
                                             FlatButton(
                                               child: Text('Create'),
                                               onPressed: () {
-                                                String randomColorCode = getColorNameFromColor(randomColor.randomColor(colorBrightness: ColorBrightness.dark, colorHue: ColorHue.multiple(colorHues: [ColorHue.blue, ColorHue.green]))).getCode;
+                                                String randomColorCode =
+                                                    getColorNameFromColor(
+                                                        randomColor.randomColor(
+                                                            colorBrightness:
+                                                                ColorBrightness
+                                                                    .dark,
+                                                            colorHue: ColorHue
+                                                                .multiple(
+                                                                    colorHues: [
+                                                                  ColorHue.blue,
+                                                                  ColorHue.green
+                                                                ]))).getCode;
                                                 StatItem newStatItem = StatItem(
-                                                  name: name,
-                                                  color: randomColorCode
-                                                );
+                                                    name: name,
+                                                    color: randomColorCode);
                                                 setState(() {
-                                                  DatabaseHelper.instance.insert('statItem', {'name': name, 'color': randomColorCode}).then((id) {
+                                                  DatabaseHelper.instance
+                                                      .insert('statItem', {
+                                                    'name': name,
+                                                    'color': randomColorCode
+                                                  }).then((id) {
                                                     newStatItem.id = id;
-                                                    DatabaseHelper.instance.insert('armyStatItemPivot', {'statItemId': newStatItem.id, 'armyId': widget.army.id});
+                                                    DatabaseHelper.instance
+                                                        .insert(
+                                                            'armyStatItemPivot',
+                                                            {
+                                                          'statItemId':
+                                                              newStatItem.id,
+                                                          'armyId':
+                                                              widget.army.id
+                                                        });
                                                   });
                                                   selectedStatItems
                                                       .add(newStatItem);
@@ -141,9 +180,9 @@ class _AddArmyState extends State<AddArmy> {
                                                   MaterialPageRoute(
                                                     builder: (context) =>
                                                         AddStatItem(
-                                                      statItem: newStatItem,
-                                                      isNew: true
-                                                    ),
+                                                            statItem:
+                                                                newStatItem,
+                                                            isNew: true),
                                                   ),
                                                 );
                                               },
@@ -152,17 +191,24 @@ class _AddArmyState extends State<AddArmy> {
                                         );
                                       });
                                 } else {
-                                  StatItem removedAvatar = filteredStatItemList.removeAt(index);
-                                  DatabaseHelper.instance.insert('armyStatItemPivot', {'statItemId': removedAvatar.id, 'armyId': widget.army.id});
+                                  StatItem removedAvatar =
+                                      filteredStatItemList.removeAt(index);
+                                  DatabaseHelper.instance.insert(
+                                      'armyStatItemPivot', {
+                                    'statItemId': removedAvatar.id,
+                                    'armyId': widget.army.id
+                                  });
                                   selectedStatItems.add(removedAvatar);
                                 }
                               });
                             },
                             child: Padding(
-                              padding: const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
+                              padding: const EdgeInsets.fromLTRB(
+                                  0.0, 10.0, 0.0, 0.0),
                               child: StatAvatar(
                                   id: filteredStatItemList[index].id,
-                                  imageText: filteredStatItemList[index].imageText,
+                                  imageText:
+                                      filteredStatItemList[index].imageText,
                                   name: filteredStatItemList[index].name,
                                   color: filteredStatItemList[index].color),
                             ),
@@ -173,7 +219,6 @@ class _AddArmyState extends State<AddArmy> {
           ),
         ),
       );
-
     }
   }
 }
