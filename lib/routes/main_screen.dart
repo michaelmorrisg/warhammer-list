@@ -75,69 +75,72 @@ class _MainScreenState extends State<MainScreen> {
                   );
                 });
           }),
-      body: armyList.length > 0 ? ListView.builder(
-          itemCount: armyList.length,
-          itemBuilder: (BuildContext context, index) {
-            return Card(
-              child: ListTile(
-                  title: Text(armyList[index].name,
-                      style: TextStyle(
-                          fontSize: 20.0, fontWeight: FontWeight.w700)),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      IconButton(
-                          icon: Icon(Icons.edit),
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        AddArmy(army: armyList[index])));
-                          }),
-                      IconButton(
-                          icon: Icon(Icons.delete),
-                          onPressed: () {
-                            showDialog(
-                                context: context,
-                                barrierDismissible: true,
-                                builder: (BuildContext context) {
-                                  return AlertDialog(
-                                    title: Text('Delete List?'),
-                                    actions: <Widget>[
-                                      FlatButton(
-                                        child: Text('Cancel'),
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                      ),
-                                      FlatButton(
-                                        textColor: Colors.red,
-                                        child: Text('Delete'),
-                                        onPressed: () {
-                                          setState(() {
-                                            DatabaseHelper.instance.delete('army', armyList[index].id);
-                                            DatabaseHelper.instance.pivotDeleteArmy('armyStatItemPivot', armyList[index].id);
-                                            armyList.removeAt(index);
+      body: armyList.length > 0 ? Padding(
+        padding: const EdgeInsets.only(top: 25.0),
+        child: ListView.builder(
+            itemCount: armyList.length,
+            itemBuilder: (BuildContext context, index) {
+              return Card(
+                child: ListTile(
+                    title: Text(armyList[index].name,
+                        style: TextStyle(
+                            fontSize: 20.0, fontWeight: FontWeight.w700)),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        IconButton(
+                            icon: Icon(Icons.edit),
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          AddArmy(army: armyList[index])));
+                            }),
+                        IconButton(
+                            icon: Icon(Icons.delete),
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  barrierDismissible: true,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text('Delete List?'),
+                                      actions: <Widget>[
+                                        FlatButton(
+                                          child: Text('Cancel'),
+                                          onPressed: () {
                                             Navigator.pop(context);
-                                          });
-                                        },
-                                      ),
-                                    ],
-                                  );
-                                });
-                          }),
-                    ],
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                GoToArmy(army: armyList[index])));
-                  }),
-            );
-          }) : Center(child: Text('You have no armies. Click the + to add one.')),
+                                          },
+                                        ),
+                                        FlatButton(
+                                          textColor: Colors.red,
+                                          child: Text('Delete'),
+                                          onPressed: () {
+                                            setState(() {
+                                              DatabaseHelper.instance.delete('army', armyList[index].id);
+                                              DatabaseHelper.instance.pivotDeleteArmy('armyStatItemPivot', armyList[index].id);
+                                              armyList.removeAt(index);
+                                              Navigator.pop(context);
+                                            });
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  });
+                            }),
+                      ],
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  GoToArmy(army: armyList[index])));
+                    }),
+              );
+            }),
+      ) : Center(child: Text('You have no armies. Click the + to add one.')),
     );
   }
 }

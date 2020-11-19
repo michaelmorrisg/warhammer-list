@@ -1,32 +1,89 @@
 import 'package:flutter/material.dart';
 import '../classes/stat_item.dart';
 import '../db/database_helper.dart';
+import '../classes/army.dart';
+import 'go_to_army.dart';
 
 class AddStatItem extends StatefulWidget {
   final StatItem statItem;
   final bool isNew;
-  const AddStatItem({Key key, @required this.statItem, this.isNew}) : super(key: key);
+  final Army currentArmy;
+  final List<StatItem> selectedStatItems;
+  const AddStatItem(
+      {Key key,
+      @required this.statItem,
+      this.isNew,
+      this.currentArmy,
+      this.selectedStatItems})
+      : super(key: key);
   _AddStatItemState createState() => _AddStatItemState();
 }
 
 class _AddStatItemState extends State<AddStatItem> {
   StatItem statItem;
+  Army currentArmy;
+  List<StatItem> selectedStatItems;
 
   initState() {
     statItem = widget.statItem;
+    currentArmy = widget.currentArmy;
+    selectedStatItems = widget.selectedStatItems;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-        onWillPop: () async {
-          DatabaseHelper.instance.update('statItem', statItem.toMap());
-          Navigator.pop(context, statItem);
-          return false;
-        } ,
-          child: Scaffold(
-        appBar: AppBar(title: Text(widget.isNew ? 'Add ${statItem.name}' : 'Edit ${statItem.name}')),
+      onWillPop: () async {
+        DatabaseHelper.instance.update('statItem', statItem.toMap());
+        Navigator.pop(context, statItem);
+        return false;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+              widget.isNew ? 'Add ${statItem.name}' : 'Edit ${statItem.name}'),
+          actions: !widget.isNew
+              ? <Widget>[
+                  IconButton(
+                    icon: Icon(Icons.delete),
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          barrierDismissible: true,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text(
+                                  'Are you sure you want to delete this unit?'),
+                              actions: <Widget>[
+                                FlatButton(
+                                  child: Text('Delete'),
+                                  onPressed: () async {
+                                    await DatabaseHelper.instance
+                                        .delete('statItem', statItem.id);
+                                    await DatabaseHelper.instance
+                                        .pivotDeleteStatItem(
+                                            'armyStatItemPivot', statItem.id);
+                                    // Feels like there should be something better than this...
+                                    Navigator.pop(context);
+                                    Navigator.pop(context, statItem);
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                GoToArmy(army: currentArmy)));
+                                  },
+                                ),
+                              ],
+                            );
+                          });
+                    },
+                  )
+                ]
+              : <Widget>[],
+        ),
         body: Table(border: TableBorder.all(), children: [
           TableRow(children: [
             TableCell(

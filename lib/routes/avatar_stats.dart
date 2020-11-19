@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
 import '../classes/stat_item.dart';
 import '../routes/add_stat_item.dart';
+import '../classes/army.dart';
 
 class AvatarStats extends StatefulWidget {
   final StatItem statItem;
-  const AvatarStats({Key key, @required this.statItem}) : super(key: key);
+  final Army currentArmy;
+  final List<StatItem>selectedStatItems;
+  const AvatarStats({Key key, @required this.statItem, this.currentArmy, this.selectedStatItems}) : super(key: key);
   _AvatarStatsState createState() => _AvatarStatsState();
 }
 
 class _AvatarStatsState extends State<AvatarStats> {
     StatItem statItem;
+    Army currentArmy;
+    List<StatItem>selectedStatItems;
 
   initState() {
     statItem = widget.statItem;
+    currentArmy = widget.currentArmy;
+    selectedStatItems = widget.selectedStatItems;
+
     super.initState();
   }
   @override
@@ -29,7 +37,9 @@ class _AvatarStatsState extends State<AvatarStats> {
                   MaterialPageRoute(
                     builder: (context) => AddStatItem(
                       statItem: statItem,
-                      isNew: false
+                      isNew: false,
+                      currentArmy: currentArmy,
+                      selectedStatItems: selectedStatItems
                     ),
                   ),
                 );

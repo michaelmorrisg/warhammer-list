@@ -70,6 +70,8 @@ class _GoToArmyState extends State<GoToArmy> {
                                 MaterialPageRoute(
                                   builder: (context) => AvatarStats(
                                     statItem: selectedStatItems[index],
+                                    currentArmy: widget.army,
+                                    selectedStatItems: selectedStatItems
                                   ),
                                 ));
                           },
