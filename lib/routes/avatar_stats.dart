@@ -15,6 +15,12 @@ class _AvatarStatsState extends State<AvatarStats> {
   StatItem statItem;
   Army currentArmy;
   List<StatItem> selectedStatItems;
+  List<Map> dummyData = [
+    {'test': 'yeay'},
+    {'wut': 'wut'},
+    {},
+    {}
+  ];
 
   initState() {
     statItem = widget.statItem;
@@ -48,14 +54,10 @@ class _AvatarStatsState extends State<AvatarStats> {
               }),
         ],
       ),
-      body: Column(
+      body: ListView(
         children: [
           Container(
             margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
-            // decoration: BoxDecoration(
-            //   border: Border.all(color: Colors.grey[700]),
-            //   borderRadius: BorderRadius.circular(10.0),
-            // ),
             child: Column(
               children: [
                 Row(
@@ -128,18 +130,49 @@ class _AvatarStatsState extends State<AvatarStats> {
               ],
             ),
           ),
-          Table(
-            children: [
-              TableRow(children: [
-                CellWidget(stat: '', title: 'Range'),
-                CellWidget(stat: '', title: 'Type'),
-                CellWidget(stat: '', title: 'S'),
-                CellWidget(stat: '', title: 'AP'),
-                CellWidget(stat: '', title: 'D'),
-                CellWidget(stat: '', title: 'Abilities'),
-              ])
-            ],
-          )
+          for (var i = 0; i < dummyData.length; i++)
+            Container(
+              margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Container(
+                          // margin: EdgeInsets.only(left: 40.0),
+                          padding: EdgeInsets.fromLTRB(10.0, 5.0, 15.0, 5.0),
+                          decoration: BoxDecoration(
+                              color: Colors.blueGrey,
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(10.0),
+                                  topRight: Radius.circular(10.0))),
+                          child: Text(statItem.name)),
+                    ],
+                  ),
+                  Table(
+                    children: [
+                      TableRow(children: [
+                        CellWidget(
+                          stat: '',
+                          title: 'Range',
+                          roundedCorner: 'left',
+                        ),
+                        CellWidget(stat: '', title: 'Type'),
+                        CellWidget(stat: '', title: 'S'),
+                        CellWidget(stat: '', title: 'AP'),
+                        CellWidget(
+                          stat: '',
+                          title: 'D',
+                          roundedCorner: 'right',
+                        ),
+                      ])
+                    ],
+                  ),
+                  Table(children: [TableRow(children: [
+                    CellWidget(stat: '', title: 'Abilities')
+                  ]),],)
+                ],
+              ),
+            ),
         ],
       ),
     );

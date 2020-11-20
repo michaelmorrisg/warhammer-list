@@ -16,7 +16,6 @@ class _GoToArmyState extends State<GoToArmy> {
   @override
   void initState() {
     super.initState();
-
     DatabaseHelper.instance.specialQuery(widget.army.id).then((result) {
       List<StatItem> selectedStatItems = [];
       for (var i = 0; i < result.length; i++) {
