@@ -51,51 +51,74 @@ class _AvatarStatsState extends State<AvatarStats> {
       body: Column(
         children: [
           Container(
-            margin: EdgeInsets.only(top: 15.0),
-            decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey[700]),
-                borderRadius: BorderRadius.circular(10.0)),
-            child: Table(children: [
-              TableRow(children: [
-                CellWidget(
-                    stat: statItem.movement == null
-                        ? '-'
-                        : statItem.movement + '"',
-                    title: 'M',
-                                        roundedCorner: 'left',),
-                CellWidget(
-                    stat: statItem.weaponSkill == null
-                        ? '-'
-                        : statItem.weaponSkill + '+',
-                    title: 'WS'),
-                CellWidget(
-                    stat: statItem.ballisticSkill == null
-                        ? '-'
-                        : statItem.ballisticSkill + '+',
-                    title: 'BS'),
-                CellWidget(
-                    stat: statItem.strength == null ? '-' : statItem.strength,
-                    title: 'S'),
-                CellWidget(
-                    stat: statItem.toughness == null ? '-' : statItem.toughness,
-                    title: 'T'),
-                CellWidget(
-                    stat: statItem.wounds == null ? '-' : statItem.wounds,
-                    title: 'W'),
-                CellWidget(
-                    stat: statItem.attacks == null ? '-' : statItem.attacks,
-                    title: 'A'),
-                CellWidget(
-                    stat:
-                        statItem.leadership == null ? '-' : statItem.leadership,
-                    title: 'Ld'),
-                CellWidget(
-                    
-                    stat: statItem.save == null ? '-' : statItem.save + '+',
-                    title: 'Sa',
-                    roundedCorner: 'right',),
-              ]),
-            ]),
+            margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+            // decoration: BoxDecoration(
+            //   border: Border.all(color: Colors.grey[700]),
+            //   borderRadius: BorderRadius.circular(10.0),
+            // ),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Container(
+                        // margin: EdgeInsets.only(left: 40.0),
+                        padding: EdgeInsets.fromLTRB(10.0, 5.0, 15.0, 5.0),
+                        decoration: BoxDecoration(
+                            color: Colors.blueGrey,
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(10.0),
+                                topRight: Radius.circular(10.0))),
+                        child: Text(statItem.name)),
+                  ],
+                ),
+                Table(children: [
+                  TableRow(children: [
+                    CellWidget(
+                      stat: statItem.movement == null
+                          ? '-'
+                          : statItem.movement + '"',
+                      title: 'M',
+                      roundedCorner: 'left',
+                    ),
+                    CellWidget(
+                        stat: statItem.weaponSkill == null
+                            ? '-'
+                            : statItem.weaponSkill + '+',
+                        title: 'WS'),
+                    CellWidget(
+                        stat: statItem.ballisticSkill == null
+                            ? '-'
+                            : statItem.ballisticSkill + '+',
+                        title: 'BS'),
+                    CellWidget(
+                        stat:
+                            statItem.strength == null ? '-' : statItem.strength,
+                        title: 'S'),
+                    CellWidget(
+                        stat: statItem.toughness == null
+                            ? '-'
+                            : statItem.toughness,
+                        title: 'T'),
+                    CellWidget(
+                        stat: statItem.wounds == null ? '-' : statItem.wounds,
+                        title: 'W'),
+                    CellWidget(
+                        stat: statItem.attacks == null ? '-' : statItem.attacks,
+                        title: 'A'),
+                    CellWidget(
+                        stat: statItem.leadership == null
+                            ? '-'
+                            : statItem.leadership,
+                        title: 'Ld'),
+                    CellWidget(
+                      stat: statItem.save == null ? '-' : statItem.save + '+',
+                      title: 'Sa',
+                      roundedCorner: 'right',
+                    ),
+                  ]),
+                ]),
+              ],
+            ),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 10.0, left: 10.0),
@@ -106,7 +129,6 @@ class _AvatarStatsState extends State<AvatarStats> {
             ),
           ),
           Table(
-            border: TableBorder.all(),
             children: [
               TableRow(children: [
                 CellWidget(stat: '', title: 'Range'),
@@ -138,19 +160,38 @@ class CellWidget extends StatelessWidget {
         children: <Widget>[
           Container(
             padding: EdgeInsets.all(10.0),
-            decoration: BoxDecoration(borderRadius: this.roundedCorner == 'left' ? BorderRadius.only(topLeft: Radius.circular(10.0)) : this.roundedCorner == 'right' ? BorderRadius.only(topRight: Radius.circular(10.0)) : null, color: Colors.blueGrey),
+            decoration: BoxDecoration(
+                borderRadius: this.roundedCorner == 'right'
+                    ? BorderRadius.only(topRight: Radius.circular(10.0))
+                    : null,
+                color: Colors.blueGrey),
             child: Text(
               this.title,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 12.0),
+              style: TextStyle(fontSize: 14.0),
             ),
           ),
           Container(
+            decoration: BoxDecoration(
+              border: this.roundedCorner == 'left'
+                  ? Border(
+                      bottom: BorderSide(color: Colors.grey),
+                      left: BorderSide(color: Colors.grey),
+                    )
+                  : this.roundedCorner == 'right'
+                      ? Border(
+                          bottom: BorderSide(color: Colors.grey),
+                          right: BorderSide(color: Colors.grey),
+                        )
+                      : Border(
+                          bottom: BorderSide(color: Colors.grey),
+                        ),
+            ),
             padding: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 15.0),
             child: Text(
               this.stat,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 12.0),
+              style: TextStyle(fontSize: 14.0),
             ),
           ),
         ],
