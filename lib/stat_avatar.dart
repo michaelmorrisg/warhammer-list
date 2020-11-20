@@ -12,10 +12,11 @@ class StatAvatar extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(left: 10.0, right: 10.0),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           CircleAvatar(
             backgroundColor: Color(int.parse('0xFF${this.color}')),
-            radius: 40.0,
+            radius: 30.0,
             child: this.imageText != null ? Text(this.imageText) : Icon(Icons.add),
           ),
           Text(name)
