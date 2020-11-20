@@ -6,14 +6,15 @@ import '../classes/army.dart';
 class AvatarStats extends StatefulWidget {
   final StatItem statItem;
   final Army currentArmy;
-  const AvatarStats({Key key, @required this.statItem, this.currentArmy}) : super(key: key);
+  const AvatarStats({Key key, @required this.statItem, this.currentArmy})
+      : super(key: key);
   _AvatarStatsState createState() => _AvatarStatsState();
 }
 
 class _AvatarStatsState extends State<AvatarStats> {
-    StatItem statItem;
-    Army currentArmy;
-    List<StatItem>selectedStatItems;
+  StatItem statItem;
+  Army currentArmy;
+  List<StatItem> selectedStatItems;
 
   initState() {
     statItem = widget.statItem;
@@ -21,6 +22,7 @@ class _AvatarStatsState extends State<AvatarStats> {
 
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,23 +48,78 @@ class _AvatarStatsState extends State<AvatarStats> {
               }),
         ],
       ),
-      body: Table(border: TableBorder.all(), children: [
-        TableRow(children: [
-          CellWidget(stat: statItem.movement == null ? '0' : statItem.movement, title: 'M'),
-          CellWidget(stat: statItem.weaponSkill == null ? '0' : statItem.weaponSkill, title: 'WS'),
-          CellWidget(stat: statItem.ballisticSkill == null ? '0' : statItem.ballisticSkill, title: 'BS'),
-        ]),
-        TableRow(children: [
-          CellWidget(stat: statItem.strength == null ? '0' : statItem.strength, title: 'S'),
-          CellWidget(stat: statItem.toughness == null ? '0' : statItem.toughness, title: 'T'),
-          CellWidget(stat: statItem.wounds == null ? '0' : statItem.wounds, title: 'W'),
-        ]),
-        TableRow(children: [
-          CellWidget(stat: statItem.attacks == null ? '0' : statItem.attacks, title: 'A'),
-          CellWidget(stat: statItem.leadership == null ? '0' : statItem.leadership, title: 'Ld'),
-          CellWidget(stat: statItem.save == null ? '0' : statItem.save, title: 'Sa'),
-        ]),
-      ]),
+      body: Column(
+        children: [
+          Container(
+            margin: EdgeInsets.only(top: 15.0),
+            decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey[700]),
+                borderRadius: BorderRadius.circular(10.0)),
+            child: Table(children: [
+              TableRow(children: [
+                CellWidget(
+                    stat: statItem.movement == null
+                        ? '-'
+                        : statItem.movement + '"',
+                    title: 'M',
+                                        roundedCorner: 'left',),
+                CellWidget(
+                    stat: statItem.weaponSkill == null
+                        ? '-'
+                        : statItem.weaponSkill + '+',
+                    title: 'WS'),
+                CellWidget(
+                    stat: statItem.ballisticSkill == null
+                        ? '-'
+                        : statItem.ballisticSkill + '+',
+                    title: 'BS'),
+                CellWidget(
+                    stat: statItem.strength == null ? '-' : statItem.strength,
+                    title: 'S'),
+                CellWidget(
+                    stat: statItem.toughness == null ? '-' : statItem.toughness,
+                    title: 'T'),
+                CellWidget(
+                    stat: statItem.wounds == null ? '-' : statItem.wounds,
+                    title: 'W'),
+                CellWidget(
+                    stat: statItem.attacks == null ? '-' : statItem.attacks,
+                    title: 'A'),
+                CellWidget(
+                    stat:
+                        statItem.leadership == null ? '-' : statItem.leadership,
+                    title: 'Ld'),
+                CellWidget(
+                    
+                    stat: statItem.save == null ? '-' : statItem.save + '+',
+                    title: 'Sa',
+                    roundedCorner: 'right',),
+              ]),
+            ]),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 10.0, left: 10.0),
+            child: Row(
+              children: [
+                Text('Weapons'),
+              ],
+            ),
+          ),
+          Table(
+            border: TableBorder.all(),
+            children: [
+              TableRow(children: [
+                CellWidget(stat: '', title: 'Range'),
+                CellWidget(stat: '', title: 'Type'),
+                CellWidget(stat: '', title: 'S'),
+                CellWidget(stat: '', title: 'AP'),
+                CellWidget(stat: '', title: 'D'),
+                CellWidget(stat: '', title: 'Abilities'),
+              ])
+            ],
+          )
+        ],
+      ),
     );
   }
 }
@@ -70,8 +127,9 @@ class _AvatarStatsState extends State<AvatarStats> {
 class CellWidget extends StatelessWidget {
   final stat;
   final title;
+  final roundedCorner;
 
-  CellWidget({this.stat, this.title});
+  CellWidget({this.stat, this.title, this.roundedCorner});
   @override
   Widget build(BuildContext context) {
     return TableCell(
@@ -80,15 +138,20 @@ class CellWidget extends StatelessWidget {
         children: <Widget>[
           Container(
             padding: EdgeInsets.all(10.0),
-            decoration: BoxDecoration(color: Colors.blueGrey),
+            decoration: BoxDecoration(borderRadius: this.roundedCorner == 'left' ? BorderRadius.only(topLeft: Radius.circular(10.0)) : this.roundedCorner == 'right' ? BorderRadius.only(topRight: Radius.circular(10.0)) : null, color: Colors.blueGrey),
             child: Text(
               this.title,
               textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 12.0),
             ),
           ),
           Container(
-            padding: EdgeInsets.all(15.0),
-            child: Text(stat, textAlign: TextAlign.center),
+            padding: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 15.0),
+            child: Text(
+              this.stat,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 12.0),
+            ),
           ),
         ],
       ),

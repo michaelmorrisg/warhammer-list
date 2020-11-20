@@ -110,7 +110,7 @@ class _AddArmyState extends State<AddArmy> {
                           BoxShadow(
                             color: Colors.black,
                             offset: Offset(0.0, 6.0),
-                            blurRadius: 30.0,
+                            blurRadius: 20.0,
                           )
                         ]),
                     child: ListView.builder(
