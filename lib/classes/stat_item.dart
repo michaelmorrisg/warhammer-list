@@ -12,8 +12,9 @@ class StatItem {
   String attacks;
   String leadership;
   String save;
+  String abilities;
 
-  StatItem({this.id, this.color, this.name, this.movement, this.weaponSkill, this.ballisticSkill, this.strength, this.toughness, this.wounds, this.attacks, this.leadership, this.save}) {
+  StatItem({this.id, this.color, this.name, this.movement, this.weaponSkill, this.ballisticSkill, this.strength, this.toughness, this.wounds, this.attacks, this.leadership, this.save, this.abilities}) {
     if (this.id == 0) {
       this.imageText = null;
     } else {
@@ -41,6 +42,7 @@ class StatItem {
       'attacks': attacks,
       'leadership': leadership,
       'save': save,
+      'abilities': abilities
     };
   }
 }

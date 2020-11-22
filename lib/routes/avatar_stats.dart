@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:warhammerApp/classes/stat_item_weapon.dart';
+import 'package:warhammerApp/db/database_helper.dart';
 import '../classes/stat_item.dart';
 import '../routes/add_stat_item.dart';
 import '../classes/army.dart';
@@ -14,19 +16,31 @@ class AvatarStats extends StatefulWidget {
 class _AvatarStatsState extends State<AvatarStats> {
   StatItem statItem;
   Army currentArmy;
-  List<StatItem> selectedStatItems;
-  List<Map> dummyData = [
-    {'test': 'yeay'},
-    {'wut': 'wut'},
-    {},
-    {}
-  ];
+  List<StatItemWeapon> statItemWeapons = [];
 
   initState() {
     statItem = widget.statItem;
     currentArmy = widget.currentArmy;
 
     super.initState();
+    DatabaseHelper.instance
+        .queryStatItemWeapon('statItemWeapon', statItem.id)
+        .then((result) => {
+              result.forEach((result) {
+                statItemWeapons.add(StatItemWeapon(
+                    id: result['id'],
+                    name: result['name'],
+                    range: result['range'],
+                    type: result['type'],
+                    damage: result['damage'],
+                    ap: result['ap'],
+                    strength: result['strength'],
+                    abilities: result['abilities']));
+              }),
+              setState(() {
+                statItemWeapons = statItemWeapons;
+              })
+            });
   }
 
   @override
@@ -60,6 +74,18 @@ class _AvatarStatsState extends State<AvatarStats> {
             margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
             child: Column(
               children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 10.0),
+                  child: Row(
+                    children: [
+                      Text('Unit',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.0,
+                              color: Color(0xFFFFAB00))),
+                    ],
+                  ),
+                ),
                 Row(
                   children: [
                     Container(
@@ -119,6 +145,48 @@ class _AvatarStatsState extends State<AvatarStats> {
                     ),
                   ]),
                 ]),
+                                  Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey)),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 8.0, top: 5.0),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      'Abilities',
+                                      style: TextStyle(
+                                          fontSize: 12.0,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(
+                                    12.0, 5.0, 10.0, 5.0),
+                                child: Row(
+                                  children: [
+                                    Flexible(
+                                      child: Text(
+                                          statItem.abilities == null
+                                              ? '-'
+                                              : statItem.abilities),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  )
               ],
             ),
           ),
@@ -126,11 +194,15 @@ class _AvatarStatsState extends State<AvatarStats> {
             padding: const EdgeInsets.only(top: 10.0, left: 10.0),
             child: Row(
               children: [
-                Text('Weapons'),
+                Text('Weapons',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.0,
+                        color: Color(0xFFFFAB00))),
               ],
             ),
           ),
-          for (var i = 0; i < dummyData.length; i++)
+          for (var i = 0; i < statItemWeapons.length; i++)
             Container(
               margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
               child: Column(
@@ -145,31 +217,87 @@ class _AvatarStatsState extends State<AvatarStats> {
                               borderRadius: BorderRadius.only(
                                   topLeft: Radius.circular(10.0),
                                   topRight: Radius.circular(10.0))),
-                          child: Text(statItem.name)),
+                          child: Text(statItemWeapons[i].name == null
+                              ? ''
+                              : statItemWeapons[i].name)),
                     ],
                   ),
                   Table(
                     children: [
                       TableRow(children: [
                         CellWidget(
-                          stat: '',
-                          title: 'Range',
-                          roundedCorner: 'left',
-                        ),
-                        CellWidget(stat: '', title: 'Type'),
-                        CellWidget(stat: '', title: 'S'),
-                        CellWidget(stat: '', title: 'AP'),
+                            stat: statItemWeapons[i].range == null
+                                ? '-'
+                                : statItemWeapons[i].range,
+                            title: 'Range',
+                            roundedCorner: 'left'),
                         CellWidget(
-                          stat: '',
+                            stat: statItemWeapons[i].type == null
+                                ? '-'
+                                : statItemWeapons[i].type,
+                            title: 'Type'),
+                        CellWidget(
+                            stat: statItemWeapons[i].strength == null
+                                ? '-'
+                                : statItemWeapons[i].strength,
+                            title: 'S'),
+                        CellWidget(
+                            stat: statItemWeapons[i].ap == null
+                                ? '-'
+                                : statItemWeapons[i].ap,
+                            title: 'AP'),
+                        CellWidget(
+                          stat: statItemWeapons[i].damage == null
+                              ? '-'
+                              : statItemWeapons[i].damage,
                           title: 'D',
                           roundedCorner: 'right',
                         ),
                       ])
                     ],
                   ),
-                  Table(children: [TableRow(children: [
-                    CellWidget(stat: '', title: 'Abilities')
-                  ]),],)
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey)),
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 8.0, top: 5.0),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      'Abilities',
+                                      style: TextStyle(
+                                          fontSize: 12.0,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(
+                                    12.0, 5.0, 10.0, 5.0),
+                                child: Row(
+                                  children: [
+                                    Flexible(
+                                      child: Text(
+                                          statItemWeapons[i].abilities == null
+                                              ? '-'
+                                              : statItemWeapons[i].abilities),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  )
                 ],
               ),
             ),
@@ -183,8 +311,10 @@ class CellWidget extends StatelessWidget {
   final stat;
   final title;
   final roundedCorner;
+  final overrideColor;
 
-  CellWidget({this.stat, this.title, this.roundedCorner});
+  CellWidget(
+      {this.stat, this.title, this.roundedCorner, this.overrideColor = false});
   @override
   Widget build(BuildContext context) {
     return TableCell(
@@ -192,16 +322,17 @@ class CellWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Container(
-            padding: EdgeInsets.all(10.0),
+            padding: EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
             decoration: BoxDecoration(
                 borderRadius: this.roundedCorner == 'right'
                     ? BorderRadius.only(topRight: Radius.circular(10.0))
                     : null,
-                color: Colors.blueGrey),
+                color:
+                    overrideColor != false ? overrideColor : Colors.blueGrey),
             child: Text(
               this.title,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 14.0),
+              style: TextStyle(fontSize: 12.0),
             ),
           ),
           Container(
@@ -220,7 +351,7 @@ class CellWidget extends StatelessWidget {
                           bottom: BorderSide(color: Colors.grey),
                         ),
             ),
-            padding: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 15.0),
+            padding: EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 5.0),
             child: Text(
               this.stat,
               textAlign: TextAlign.center,

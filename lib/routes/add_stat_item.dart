@@ -3,16 +3,14 @@ import '../classes/stat_item.dart';
 import '../db/database_helper.dart';
 import '../classes/army.dart';
 import 'go_to_army.dart';
+import '../classes/stat_item_weapon.dart';
 
 class AddStatItem extends StatefulWidget {
   final StatItem statItem;
   final bool isNew;
   final Army currentArmy;
   const AddStatItem(
-      {Key key,
-      @required this.statItem,
-      this.isNew,
-      this.currentArmy})
+      {Key key, @required this.statItem, this.isNew, this.currentArmy})
       : super(key: key);
   _AddStatItemState createState() => _AddStatItemState();
 }
@@ -20,11 +18,13 @@ class AddStatItem extends StatefulWidget {
 class _AddStatItemState extends State<AddStatItem> {
   StatItem statItem;
   Army currentArmy;
+  StatItemWeapon newWeapon;
   List<StatItem> selectedStatItems;
 
   initState() {
     statItem = widget.statItem;
     currentArmy = widget.currentArmy;
+    newWeapon = StatItemWeapon();
     super.initState();
   }
 
@@ -81,283 +81,309 @@ class _AddStatItemState extends State<AddStatItem> {
                 ]
               : <Widget>[],
         ),
-        body: Table(border: TableBorder.all(), children: [
-          TableRow(children: [
-            TableCell(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.all(10.0),
-                    decoration: BoxDecoration(color: Colors.blueGrey),
-                    child: Text(
-                      'Movement',
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(15.0),
-                    child: TextFormField(
-                      initialValue: statItem.movement,
-                      decoration: InputDecoration(
-                        hintText: 'M',
+        body: ListView(children: [
+          Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                      child: TextFormField(
+                        initialValue: statItem.movement,
+                        decoration: InputDecoration(
+                          labelText: 'Movement',
+                        ),
+                        keyboardType: TextInputType.number,
+                        onChanged: (text) {
+                          setState(() {
+                            statItem.movement = text;
+                          });
+                        },
                       ),
-                      keyboardType: TextInputType.number,
-                      onChanged: (text) {
-                        setState(() {
-                          statItem.movement = text;
-                        });
-                      },
                     ),
                   ),
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                      child: TextFormField(
+                        initialValue: statItem.weaponSkill,
+                        decoration: InputDecoration(
+                          labelText: 'Weapon Skill',
+                        ),
+                        keyboardType: TextInputType.number,
+                        onChanged: (text) {
+                          setState(() {
+                            statItem.weaponSkill = text;
+                          });
+                        },
+                      ),
+                    ),
+                  )
                 ],
               ),
-            ),
-            TableCell(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.all(10.0),
-                    decoration: BoxDecoration(color: Colors.blueGrey),
-                    child: Text(
-                      'Weapon Skill',
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(15.0),
-                    child: TextFormField(
-                      initialValue: statItem.weaponSkill,
-                      decoration: InputDecoration(
-                        hintText: 'WS',
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                      child: TextFormField(
+                        initialValue: statItem.ballisticSkill,
+                        decoration: InputDecoration(
+                          labelText: 'Ballistic Skill',
+                        ),
+                        keyboardType: TextInputType.number,
+                        onChanged: (text) {
+                          setState(() {
+                            statItem.ballisticSkill = text;
+                          });
+                        },
                       ),
-                      keyboardType: TextInputType.number,
-                      onChanged: (text) {
-                        setState(() {
-                          statItem.weaponSkill = text;
-                        });
-                      },
                     ),
                   ),
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                      child: TextFormField(
+                        initialValue: statItem.strength,
+                        decoration: InputDecoration(
+                          labelText: 'Strength',
+                        ),
+                        keyboardType: TextInputType.number,
+                        onChanged: (text) {
+                          setState(() {
+                            statItem.strength = text;
+                          });
+                        },
+                      ),
+                    ),
+                  )
                 ],
               ),
-            ),
-            TableCell(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.all(10.0),
-                    decoration: BoxDecoration(color: Colors.blueGrey),
-                    child: Text(
-                      'Ballistic Skill',
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(15.0),
-                    child: TextFormField(
-                      initialValue: statItem.ballisticSkill,
-                      decoration: InputDecoration(
-                        hintText: 'BS',
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                      child: TextFormField(
+                        initialValue: statItem.toughness,
+                        decoration: InputDecoration(
+                          labelText: 'Toughness',
+                        ),
+                        keyboardType: TextInputType.number,
+                        onChanged: (text) {
+                          setState(() {
+                            statItem.toughness = text;
+                          });
+                        },
                       ),
-                      keyboardType: TextInputType.number,
-                      onChanged: (text) {
-                        setState(() {
-                          statItem.ballisticSkill = text;
-                        });
-                      },
                     ),
                   ),
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                      child: TextFormField(
+                        initialValue: statItem.wounds,
+                        decoration: InputDecoration(
+                          labelText: 'Wounds',
+                        ),
+                        keyboardType: TextInputType.number,
+                        onChanged: (text) {
+                          setState(() {
+                            statItem.wounds = text;
+                          });
+                        },
+                      ),
+                    ),
+                  )
                 ],
               ),
-            ),
-          ]),
-          TableRow(children: [
-            TableCell(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.all(10.0),
-                    decoration: BoxDecoration(color: Colors.blueGrey),
-                    child: Text(
-                      'Strength',
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(15.0),
-                    child: TextFormField(
-                      initialValue: statItem.strength,
-                      decoration: InputDecoration(
-                        hintText: 'S',
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                      child: TextFormField(
+                        initialValue: statItem.attacks,
+                        decoration: InputDecoration(
+                          labelText: 'Attacks',
+                        ),
+                        keyboardType: TextInputType.number,
+                        onChanged: (text) {
+                          setState(() {
+                            statItem.attacks = text;
+                          });
+                        },
                       ),
-                      keyboardType: TextInputType.number,
-                      onChanged: (text) {
-                        setState(() {
-                          statItem.strength = text;
-                        });
-                      },
                     ),
                   ),
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                      child: TextFormField(
+                        initialValue: statItem.leadership,
+                        decoration: InputDecoration(
+                          labelText: 'Leadership',
+                        ),
+                        keyboardType: TextInputType.number,
+                        onChanged: (text) {
+                          setState(() {
+                            statItem.leadership = text;
+                          });
+                        },
+                      ),
+                    ),
+                  )
                 ],
               ),
-            ),
-            TableCell(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.all(10.0),
-                    decoration: BoxDecoration(color: Colors.blueGrey),
-                    child: Text(
-                      'Toughness',
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(15.0),
-                    child: TextFormField(
-                      initialValue: statItem.toughness,
-                      decoration: InputDecoration(
-                        hintText: 'T',
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                      child: TextFormField(
+                        initialValue: statItem.save,
+                        decoration: InputDecoration(
+                          labelText: 'Save',
+                        ),
+                        keyboardType: TextInputType.number,
+                        onChanged: (text) {
+                          setState(() {
+                            statItem.save = text;
+                          });
+                        },
                       ),
-                      keyboardType: TextInputType.number,
-                      onChanged: (text) {
-                        setState(() {
-                          statItem.toughness = text;
-                        });
-                      },
                     ),
                   ),
+                  Expanded(
+                    child: Container(),
+                  )
                 ],
               ),
-            ),
-            TableCell(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.all(10.0),
-                    decoration: BoxDecoration(color: Colors.blueGrey),
-                    child: Text(
-                      'Wounds',
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(15.0),
-                    child: TextFormField(
-                      initialValue: statItem.wounds,
-                      decoration: InputDecoration(
-                        hintText: 'W',
-                      ),
-                      keyboardType: TextInputType.number,
-                      onChanged: (text) {
-                        setState(() {
-                          statItem.wounds = text;
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    newWeapon = StatItemWeapon();
+                    showDialog(
+                        context: context,
+                        barrierDismissible: true,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('New Weapon'),
+                            content: Container(
+                              width: double.maxFinite,
+                              child: ListView(
+                                children: [
+                                  TextFormField(
+                                    initialValue: newWeapon.name,
+                                    decoration:
+                                        InputDecoration(labelText: 'Name'),
+                                    onChanged: (text) {
+                                      setState(() {
+                                        newWeapon.name = text;
+                                      });
+                                    },
+                                  ),
+                                  TextFormField(
+                                    initialValue: newWeapon.range,
+                                    decoration:
+                                        InputDecoration(labelText: 'Range'),
+                                    onChanged: (text) {
+                                      setState(() {
+                                        newWeapon.range = text;
+                                      });
+                                    },
+                                  ),
+                                  TextFormField(
+                                    initialValue: newWeapon.type,
+                                    decoration:
+                                        InputDecoration(labelText: 'Type'),
+                                    onChanged: (text) {
+                                      setState(() {
+                                        newWeapon.type = text;
+                                      });
+                                    },
+                                  ),
+                                  TextFormField(
+                                    initialValue: newWeapon.strength,
+                                    decoration:
+                                        InputDecoration(labelText: 'Strength'),
+                                    keyboardType: TextInputType.number,
+                                    onChanged: (text) {
+                                      setState(() {
+                                        newWeapon.strength = text;
+                                      });
+                                    },
+                                  ),
+                                  TextFormField(
+                                    initialValue: newWeapon.ap,
+                                    decoration: InputDecoration(labelText: 'AP'),
+                                    keyboardType: TextInputType.number,
+                                    onChanged: (text) {
+                                      setState(() {
+                                        newWeapon.ap = text;
+                                      });
+                                    },
+                                  ),
+                                  TextFormField(
+                                    initialValue: newWeapon.damage,
+                                    decoration:
+                                        InputDecoration(labelText: 'Damage'),
+                                    onChanged: (text) {
+                                      setState(() {
+                                        newWeapon.damage = text;
+                                      });
+                                    },
+                                  ),
+                                  TextFormField(
+                                    initialValue: newWeapon.abilities,
+                                    decoration: InputDecoration(
+                                      labelText: 'Abilities',
+                                    ),
+                                    onChanged: (text) {
+                                      setState(() {
+                                        newWeapon.abilities = text;
+                                      });
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                            actions: <Widget>[
+                              FlatButton(
+                                child: Text('Cancel'),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                              FlatButton(
+                                child: Text('Create'),
+                                onPressed: () {
+                                  newWeapon.statItemId = widget.statItem.id;
+                                  DatabaseHelper.instance.insert(
+                                      'statItemWeapon', newWeapon.toMap());
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ],
+                          );
                         });
-                      },
-                    ),
-                  ),
-                ],
-              ),
+                  },
+                  child: Text('+ Weapon',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20.0,
+                          color: Color(0xFFFFAB00))),
+                )
+              ],
             ),
-          ]),
-          TableRow(children: [
-            TableCell(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.all(10.0),
-                    decoration: BoxDecoration(color: Colors.blueGrey),
-                    child: Text(
-                      'Attacks',
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(15.0),
-                    child: TextFormField(
-                      initialValue: statItem.attacks,
-                      decoration: InputDecoration(
-                        hintText: 'A',
-                      ),
-                      keyboardType: TextInputType.number,
-                      onChanged: (text) {
-                        setState(() {
-                          statItem.attacks = text;
-                        });
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            TableCell(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.all(10.0),
-                    decoration: BoxDecoration(color: Colors.blueGrey),
-                    child: Text(
-                      'Leadership',
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(15.0),
-                    child: TextFormField(
-                      initialValue: statItem.leadership,
-                      decoration: InputDecoration(
-                        hintText: 'Ld',
-                      ),
-                      keyboardType: TextInputType.number,
-                      onChanged: (text) {
-                        setState(() {
-                          statItem.leadership = text;
-                        });
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            TableCell(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.all(10.0),
-                    decoration: BoxDecoration(color: Colors.blueGrey),
-                    child: Text(
-                      'Save',
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(15.0),
-                    child: TextFormField(
-                      initialValue: statItem.save,
-                      decoration: InputDecoration(
-                        hintText: 'Sv',
-                      ),
-                      keyboardType: TextInputType.number,
-                      onChanged: (text) {
-                        setState(() {
-                          statItem.save = text;
-                        });
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ]),
+          )
         ]),
       ),
     );

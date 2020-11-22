@@ -53,7 +53,8 @@ class DatabaseHelper {
       wounds TEXT,
       attacks TEXT,
       leadership TEXT,
-      save TEXT
+      save TEXT,
+      abilities TEXT
     )
     '''
     );
@@ -65,6 +66,23 @@ class DatabaseHelper {
       armyId INTEGER,
       FOREIGN KEY (statItemId) REFERENCES statItem (id) ON DELETE NO ACTION ON UPDATE NO ACTION,
       FOREIGN KEY (armyId) REFERENCES army (id) ON DELETE NO ACTION ON UPDATE NO ACTION
+      )
+      '''
+    );
+
+    await db.execute(
+      '''
+      CREATE TABLE statItemWeapon (
+        id INTEGER PRIMARY KEY,
+        name TEXT,
+        range TEXT,
+        type TEXT,
+        strength TEXT,
+        ap TEXT,
+        damage TEXT,
+        abilities TEXT,
+        statItemId INTEGER,
+        FOREIGN KEY (statItemId) REFERENCES statItem (id) ON DELETE NO ACTION ON UPDATE NO ACTION
       )
       '''
     );
@@ -109,6 +127,11 @@ class DatabaseHelper {
   Future<List> specialQuery(int armyId) async {
     Database db = await instance.database;
     return await db.rawQuery('SELECT * FROM armyStatItemPivot JOIN statItem ON armyStatItemPivot.statItemId = statItem.id WHERE armyId = ? ', [armyId]);
+  }
+
+  Future<List> queryStatItemWeapon(String table, int id) async {
+    Database db = await instance.database;
+    return await db.query(table, where: 'statItemId = ?', whereArgs: [id]);
   }
 
 }

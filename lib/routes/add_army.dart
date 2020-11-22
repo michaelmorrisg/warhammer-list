@@ -74,8 +74,8 @@ class _AddArmyState extends State<AddArmy> {
                         itemCount: selectedStatItems.length,
                         gridDelegate:
                             new SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisSpacing: 10,
-                          crossAxisCount: 3,
+                          crossAxisSpacing: 5,
+                          crossAxisCount: 4,
                           childAspectRatio: 1,
                         ),
                         itemBuilder: (BuildContext context, index) {

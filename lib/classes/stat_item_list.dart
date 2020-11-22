@@ -20,6 +20,7 @@ class StatItemList {
         leadership: statItems[i]['leadership'],
         attacks: statItems[i]['attacks'],
         wounds: statItems[i]['wounds'],
+        abilities: statItems[i]['abilities']
       ));
     }
   }
