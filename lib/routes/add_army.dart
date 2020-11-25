@@ -127,7 +127,7 @@ class _AddArmyState extends State<AddArmy> {
                                       builder: (BuildContext context) {
                                         return AlertDialog(
                                           title: Text(
-                                              'What do you want to name your new stat item?'),
+                                              'What do you want to name your new unit?'),
                                           content: TextField(
                                             decoration: InputDecoration(
                                                 labelText: 'Name'),

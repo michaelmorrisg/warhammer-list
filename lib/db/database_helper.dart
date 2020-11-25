@@ -134,4 +134,9 @@ class DatabaseHelper {
     return await db.query(table, where: 'statItemId = ?', whereArgs: [id]);
   }
 
+  Future<List> deleteStatItemWeapons(String table, int id) async {
+    Database db = await instance.database;
+    return await db.query(table, where: 'statItemId = ?', whereArgs: [id]);
+  }
+
 }

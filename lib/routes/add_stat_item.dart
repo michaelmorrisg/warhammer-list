@@ -59,7 +59,7 @@ class _AddStatItemState extends State<AddStatItem> {
                           builder: (BuildContext context) {
                             return AlertDialog(
                               title: Text(
-                                  'Are you sure you want to delete this unit?'),
+                                  'Are you sure you want to delete this unit? This will remove the unit from all armies.'),
                               actions: <Widget>[
                                 FlatButton(child: Text('Cancel'), onPressed: () {
                                   Navigator.pop(context);
@@ -69,10 +69,10 @@ class _AddStatItemState extends State<AddStatItem> {
                                   onPressed: () async {
                                     await DatabaseHelper.instance
                                         .delete('statItem', statItem.id);
+                                    await DatabaseHelper.instance.deleteStatItemWeapons('statItemWeapon', statItem.id);
                                     await DatabaseHelper.instance
                                         .pivotDeleteStatItem(
-                                            'armyStatItemPivot', statItem.id)
-                                        .then((returnValue) {});
+                                            'armyStatItemPivot', statItem.id);
                                     // Feels like there should be something better than this...
                                     Navigator.pop(context);
                                     Navigator.pop(context, statItem);
