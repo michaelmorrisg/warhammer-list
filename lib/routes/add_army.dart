@@ -144,12 +144,11 @@ class _AddArmyState extends State<AddArmy> {
                                                         randomColor.randomColor(
                                                             colorBrightness:
                                                                 ColorBrightness
-                                                                    .dark,
+                                                                    .light,
                                                             colorHue: ColorHue
                                                                 .multiple(
                                                                     colorHues: [
-                                                                  ColorHue.blue,
-                                                                  ColorHue.green
+                                                                  ColorHue.blue
                                                                 ]))).getCode;
                                                 StatItem newStatItem = StatItem(
                                                     name: name,

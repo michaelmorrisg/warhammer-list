@@ -31,7 +31,8 @@ class _AddStatItemState extends State<AddStatItem> {
     statItem = widget.statItem;
     currentArmy = widget.currentArmy;
     newWeapon = StatItemWeapon();
-    statItemWeapons = widget.statItemWeapons != null ? widget.statItemWeapons : [];
+    statItemWeapons =
+        widget.statItemWeapons != null ? widget.statItemWeapons : [];
     super.initState();
   }
 
@@ -60,8 +61,11 @@ class _AddStatItemState extends State<AddStatItem> {
                               title: Text(
                                   'Are you sure you want to delete this unit?'),
                               actions: <Widget>[
+                                FlatButton(child: Text('Cancel'), onPressed: () {
+                                  Navigator.pop(context);
+                                },),
                                 FlatButton(
-                                  child: Text('Delete'),
+                                  child: Text('Delete', style: TextStyle(color: Colors.red)),
                                   onPressed: () async {
                                     await DatabaseHelper.instance
                                         .delete('statItem', statItem.id);
@@ -284,15 +288,17 @@ class _AddStatItemState extends State<AddStatItem> {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 10.0, left: 10.0),
-            child: Row(
-              children: [
-                Text('Weapons',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.0,
-                        color: Color(0xFFFFAB00))),
-              ],
-            ),
+            child: statItemWeapons.length > 0
+                ? Row(
+                    children: [
+                      Text('Weapons',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.0,
+                              color: Color(0xFFFFAB00))),
+                    ],
+                  )
+                : null,
           ),
           Padding(
             padding: const EdgeInsets.only(top: 10.0),
@@ -309,7 +315,47 @@ class _AddStatItemState extends State<AddStatItem> {
                             barrierDismissible: true,
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                title: Text('Edit Weapon'),
+                                title: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('Edit ${editStatItemWeapon.name}'),
+                                    GestureDetector(
+                                        onTap: () {
+                                          showDialog(
+                                              context: context,
+                                              barrierDismissible: true,
+                                              builder: (BuildContext context) {
+                                                return AlertDialog(
+                                                  title: Text('Delete Weapon'),
+                                                  content: Text(
+                                                      'Are you sure you want to delete this weapon?'),
+                                                  actions: [
+                                                    FlatButton(
+                                                      child: Text('Cancel'),
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                    ),
+                                                    FlatButton(
+                                                      child: Text('Delete', style: TextStyle(color: Colors.red)),
+                                                      onPressed: () {
+                                                        DatabaseHelper.instance.delete('statItemWeapon', editStatItemWeapon.id).then((result) {
+                                                          setState(() {
+                                                            statItemWeapons.removeWhere((weapon) => weapon.id == editStatItemWeapon.id);
+                                                          });
+                                                        });
+                                                        Navigator.pop(context);
+                                                        Navigator.pop(context);
+                                                      },
+                                                    )
+                                                  ],
+                                                );
+                                              });
+                                        },
+                                        child: Icon(Icons.delete))
+                                  ],
+                                ),
                                 content: Container(
                                   width: double.maxFinite,
                                   child: ListView(
@@ -444,7 +490,8 @@ class _AddStatItemState extends State<AddStatItem> {
                                     child: Text('Save'),
                                     onPressed: () {
                                       weaponSaved = true;
-                                      editStatItemWeapon.statItemId = statItem.id;
+                                      editStatItemWeapon.statItemId =
+                                          statItem.id;
                                       DatabaseHelper.instance.update(
                                           'statItemWeapon',
                                           editStatItemWeapon.toMap());
