@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "23098540001",
+    "firebase_url": "https://statshammer-ml.firebaseio.com",
+    "project_id": "statshammer-ml",
+    "storage_bucket": "statshammer-ml.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:23098540001:android:a9b1d7fd364796313c5ca0",
+        "android_client_info": {
+          "package_name": "com.example.warhammerApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "23098540001-ed5155svukrf1m2ot06odue75fr980oq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3FG2G9ptuPj6SptNeNFOnPTLbWt4-NUg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "23098540001-ed5155svukrf1m2ot06odue75fr980oq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "23098540001-52kv2qbeqbmhqlqb8pg3kqpa2lhikgiq.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.warhammerApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
