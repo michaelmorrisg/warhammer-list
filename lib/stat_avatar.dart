@@ -19,7 +19,7 @@ class StatAvatar extends StatelessWidget {
             radius: 30.0,
             child: this.imageText != null ? Text(this.imageText) : Icon(Icons.add),
           ),
-          Text(name)
+          Text(name, textAlign: TextAlign.center, textWidthBasis: TextWidthBasis.parent,)
         ],
       ),
     );

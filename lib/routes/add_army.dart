@@ -129,6 +129,7 @@ class _AddArmyState extends State<AddArmy> {
                                           title: Text(
                                               'What do you want to name your new unit?'),
                                           content: TextField(
+                                            textCapitalization: TextCapitalization.words,
                                             decoration: InputDecoration(
                                                 labelText: 'Name'),
                                             onChanged: (input) {

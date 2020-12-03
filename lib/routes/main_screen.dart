@@ -31,13 +31,13 @@ class _MainScreenState extends State<MainScreen> {
       return Scaffold(
           body: Container(
         alignment: Alignment(0, 0),
-        child: Text('Loading...'),
+        child: CircularProgressIndicator(),
       ));
     }
     return Scaffold(
       floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
-          onPressed: () {
+          onPressed: () async {
             showDialog(
                 context: context,
                 barrierDismissible: true,
@@ -45,6 +45,7 @@ class _MainScreenState extends State<MainScreen> {
                   return AlertDialog(
                     title: Text('What do you want to name your new list?'),
                     content: TextField(
+                      textCapitalization: TextCapitalization.words,
                       decoration: InputDecoration(labelText: 'Name'),
                       onChanged: (input) {
                         newName = input;

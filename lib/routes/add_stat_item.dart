@@ -50,6 +50,17 @@ class _AddStatItemState extends State<AddStatItem> {
               widget.isNew ? 'Add ${statItem.name}' : 'Edit ${statItem.name}'),
           actions: !widget.isNew
               ? <Widget>[
+                  // IconButton(
+                  //     icon: Icon(Icons.photo_camera),
+                  //     onPressed: () {
+                  //       Navigator.push(
+                  //         context,
+                  //         MaterialPageRoute(
+                  //           builder: (context) =>
+                  //               Camera(),
+                  //         ),
+                  //       );
+                  //     }),
                   IconButton(
                     icon: Icon(Icons.delete),
                     onPressed: () {
@@ -61,15 +72,21 @@ class _AddStatItemState extends State<AddStatItem> {
                               title: Text(
                                   'Are you sure you want to delete this unit? This will remove the unit from all armies.'),
                               actions: <Widget>[
-                                FlatButton(child: Text('Cancel'), onPressed: () {
-                                  Navigator.pop(context);
-                                },),
                                 FlatButton(
-                                  child: Text('Delete', style: TextStyle(color: Colors.red)),
+                                  child: Text('Cancel'),
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                ),
+                                FlatButton(
+                                  child: Text('Delete',
+                                      style: TextStyle(color: Colors.red)),
                                   onPressed: () async {
                                     await DatabaseHelper.instance
                                         .delete('statItem', statItem.id);
-                                    await DatabaseHelper.instance.deleteStatItemWeapons('statItemWeapon', statItem.id);
+                                    await DatabaseHelper.instance
+                                        .deleteStatItemWeapons(
+                                            'statItemWeapon', statItem.id);
                                     await DatabaseHelper.instance
                                         .pivotDeleteStatItem(
                                             'armyStatItemPivot', statItem.id);
@@ -284,6 +301,29 @@ class _AddStatItemState extends State<AddStatItem> {
                   )
                 ],
               ),
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                      child: TextFormField(
+                        maxLines: null,
+                        minLines: 4,
+                        initialValue: statItem.abilities,
+                        decoration: InputDecoration(
+                          labelText: 'Abilities',
+                        ),
+                        // keyboardType: TextInputType.multiline,
+                        onChanged: (text) {
+                          setState(() {
+                            statItem.abilities = text;
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
           Padding(
@@ -338,11 +378,25 @@ class _AddStatItemState extends State<AddStatItem> {
                                                       },
                                                     ),
                                                     FlatButton(
-                                                      child: Text('Delete', style: TextStyle(color: Colors.red)),
+                                                      child: Text('Delete',
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.red)),
                                                       onPressed: () {
-                                                        DatabaseHelper.instance.delete('statItemWeapon', editStatItemWeapon.id).then((result) {
+                                                        DatabaseHelper.instance
+                                                            .delete(
+                                                                'statItemWeapon',
+                                                                editStatItemWeapon
+                                                                    .id)
+                                                            .then((result) {
                                                           setState(() {
-                                                            statItemWeapons.removeWhere((weapon) => weapon.id == editStatItemWeapon.id);
+                                                            statItemWeapons
+                                                                .removeWhere(
+                                                                    (weapon) =>
+                                                                        weapon
+                                                                            .id ==
+                                                                        editStatItemWeapon
+                                                                            .id);
                                                           });
                                                         });
                                                         Navigator.pop(context);
@@ -421,8 +475,6 @@ class _AddStatItemState extends State<AddStatItem> {
                                                     editStatItemWeapon.strength,
                                                 decoration: InputDecoration(
                                                     labelText: 'Strength'),
-                                                keyboardType:
-                                                    TextInputType.number,
                                                 onChanged: (text) {
                                                   setState(() {
                                                     editStatItemWeapon
@@ -465,6 +517,9 @@ class _AddStatItemState extends State<AddStatItem> {
                                         },
                                       ),
                                       TextFormField(
+                                        minLines: 4,
+                                        maxLines: null,
+                                        textCapitalization: TextCapitalization.sentences,
                                         initialValue:
                                             editStatItemWeapon.abilities,
                                         decoration: InputDecoration(
@@ -651,6 +706,7 @@ class _AddStatItemState extends State<AddStatItem> {
                                     },
                                   ),
                                   TextFormField(
+                                    textCapitalization: TextCapitalization.sentences,
                                     initialValue: newWeapon.abilities,
                                     decoration: InputDecoration(
                                       labelText: 'Abilities',
