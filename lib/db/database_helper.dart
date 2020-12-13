@@ -54,7 +54,9 @@ class DatabaseHelper {
       attacks TEXT,
       leadership TEXT,
       save TEXT,
-      abilities TEXT
+      abilities TEXT,
+      degrades BOOL,
+      damageTable TEXT
     )
     '''
     );

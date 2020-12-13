@@ -13,8 +13,10 @@ class StatItem {
   String leadership;
   String save;
   String abilities;
+  dynamic degrades;
+  String damageTable;
 
-  StatItem({this.id, this.color, this.name, this.movement, this.weaponSkill, this.ballisticSkill, this.strength, this.toughness, this.wounds, this.attacks, this.leadership, this.save, this.abilities}) {
+  StatItem({this.id, this.color, this.name, this.movement, this.weaponSkill, this.ballisticSkill, this.strength, this.toughness, this.wounds, this.attacks, this.leadership, this.save, this.abilities, this.degrades, this.damageTable}) {
     if (this.id == 0) {
       this.imageText = null;
     } else {
@@ -24,6 +26,11 @@ class StatItem {
         imageText += splitName[i][0];
       }
       this.imageText = imageText;
+    }
+    if (this.degrades == 1) {
+      this.degrades = true;
+    } else {
+      this.degrades = false;
     }
   }
 
@@ -42,7 +49,9 @@ class StatItem {
       'attacks': attacks,
       'leadership': leadership,
       'save': save,
-      'abilities': abilities
+      'abilities': abilities,
+      'degrades': degrades == true ? 1 : 0,
+      'damageTable': damageTable
     };
   }
 }

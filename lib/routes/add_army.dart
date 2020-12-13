@@ -44,7 +44,10 @@ class _AddArmyState extends State<AddArmy> {
             save: result[i]['save'],
             leadership: result[i]['leadership'],
             attacks: result[i]['attacks'],
-            wounds: result[i]['wounds']));
+            wounds: result[i]['wounds'],
+            degrades: result[i]['degrades'],
+            damageTable: result[i]['damageTable']
+            ));
       }
       setState(() {
         selectedItemList = selectedStatItems;

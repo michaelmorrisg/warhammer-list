@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import '../classes/stat_item.dart';
 import '../db/database_helper.dart';
@@ -24,8 +26,9 @@ class _AddStatItemState extends State<AddStatItem> {
   StatItem statItem;
   Army currentArmy;
   StatItemWeapon newWeapon;
-  List<StatItem> selectedStatItems;
   List<StatItemWeapon> statItemWeapons;
+
+  List damageTable;
 
   initState() {
     statItem = widget.statItem;
@@ -33,6 +36,7 @@ class _AddStatItemState extends State<AddStatItem> {
     newWeapon = StatItemWeapon();
     statItemWeapons =
         widget.statItemWeapons != null ? widget.statItemWeapons : [];
+    damageTable = widget.statItem.damageTable != null ? json.decode(widget.statItem.damageTable) : [{'row0': '', 'row1': '', 'row2': ''}, {'row0': '', 'row1': '', 'row2': ''}, {'row0': '', 'row1': '', 'row2': ''}];
     super.initState();
   }
 
@@ -50,17 +54,6 @@ class _AddStatItemState extends State<AddStatItem> {
               widget.isNew ? 'Add ${statItem.name}' : 'Edit ${statItem.name}'),
           actions: !widget.isNew
               ? <Widget>[
-                  // IconButton(
-                  //     icon: Icon(Icons.photo_camera),
-                  //     onPressed: () {
-                  //       Navigator.push(
-                  //         context,
-                  //         MaterialPageRoute(
-                  //           builder: (context) =>
-                  //               Camera(),
-                  //         ),
-                  //       );
-                  //     }),
                   IconButton(
                     icon: Icon(Icons.delete),
                     onPressed: () {
@@ -124,6 +117,228 @@ class _AddStatItemState extends State<AddStatItem> {
                             color: Color(0xFFFFAB00))),
                   ],
                 ),
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 15.0, left: 10.0),
+                      child: Container(
+                        child: Column(
+                          children: [
+                            Text(
+                              'Stats Degrade',
+                              style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                            Switch(
+                              onChanged: (value) {
+                                setState(() {
+                                  statItem.degrades = value;
+                                });
+                              },
+                              value: statItem.degrades != null
+                                  ? statItem.degrades
+                                  : false,
+                              activeColor: Color(0xFFFFAB00),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                      child: statItem.degrades == true
+                          ? Container(
+                              margin: EdgeInsets.only(left: 10.0, right: 10.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.only(bottom: 10.0),
+                                    child: Text('Damage Table',
+                                        style: TextStyle(
+                                            fontSize: 16.0,
+                                            color: Colors.grey)),
+                                  ),
+                                  GestureDetector(
+                                    child: CircleAvatar(
+                                      backgroundColor: Colors.blueGrey[300],
+                                      radius: 20.0,
+                                      child: Icon(Icons.table_chart),
+                                    ),
+                                    onTap: () {
+                                      showDialog(
+                                          context: context,
+                                          barrierDismissible: true,
+                                          builder: (BuildContext context) {
+                                            return StatefulBuilder(builder:
+                                                (context,
+                                                    StateSetter setState) {
+                                              return AlertDialog(
+                                                title: Text('Add Damage Table'),
+                                                content: Column(
+                                                  children: [
+                                                    Row(
+                                                      children: [
+                                                        RaisedButton(
+                                                          onPressed: () {
+                                                            setState(() {
+                                                              if (damageTable.length > 2) {
+                                                                damageTable.removeLast();
+                                                              }
+                                                            });
+                                                          },
+                                                          textColor:
+                                                              Colors.black,
+                                                          color:
+                                                              Color(0xFFFFAB00),
+                                                          child: Text('-'),
+                                                        ),
+                                                        Text('Columns'),
+                                                        RaisedButton(
+                                                            onPressed: () {
+                                                              setState(() {
+                                                                damageTable
+                                                                    .add({});
+                                                                for (var k = 0; k < damageTable[0].length; k++) {
+                                                                  damageTable[damageTable.length -1]['row${k}'] = '';
+                                                                }
+                                                              });
+                                                            },
+                                                            textColor:
+                                                                Colors.black,
+                                                            color: Color(
+                                                                0xFFFFAB00),
+                                                            child: Text('+'))
+                                                      ],
+                                                    ),
+                                                    Row(
+                                                      children: [
+                                                        RaisedButton(
+                                                          onPressed: () {
+                                                            setState(() {
+                                                              if (damageTable[0].length > 2) {
+                                                                num rowNumber = damageTable[0].length - 1;
+                                                                damageTable
+                                                                    .forEach(
+                                                                        (column) {
+                                                                  column.remove(
+                                                                      'row${rowNumber}');
+                                                                });
+                                                              }
+                                                            });
+                                                          },
+                                                          textColor:
+                                                              Colors.black,
+                                                          color:
+                                                              Color(0xFFFFAB00),
+                                                          child: Text('-'),
+                                                        ),
+                                                        Text('Rows'),
+                                                        RaisedButton(
+                                                            onPressed: () {
+                                                              setState(() {
+                                                                num newRowNumber = damageTable[0].length;
+                                                                damageTable
+                                                                    .forEach(
+                                                                        (column) {
+                                                                  column['row${newRowNumber}'] =
+                                                                      '';
+                                                                });
+                                                              });
+                                                            },
+                                                            textColor:
+                                                                Colors.black,
+                                                            color: Color(
+                                                                0xFFFFAB00),
+                                                            child: Text('+'))
+                                                      ],
+                                                    ),
+                                                    Table(
+                                                      children: [
+                                                        for (var i = 0;
+                                                            i < damageTable[0].length;
+                                                            i++)
+                                                          TableRow(children: [
+                                                            for (var j = 0;
+                                                                j < damageTable.length;
+                                                                j++)
+                                                              TableCell(
+                                                                child: i == 0 &&
+                                                                        j == 0
+                                                                    ? Text(
+                                                                        'Remaining Wounds')
+                                                                    : i == 0 &&
+                                                                            j !=
+                                                                                0
+                                                                        ? TextFormField(
+                                                                            initialValue:
+                                                                                damageTable[j]['row${i}'],
+                                                                            onChanged:
+                                                                                (text) {
+                                                                              setState(() {
+                                                                                damageTable[j]['row${i}'] = text;
+                                                                              });
+                                                                            },
+                                                                            decoration:
+                                                                                InputDecoration(
+                                                                              labelText: 'Stat Name',
+                                                                            ),
+                                                                            keyboardType:
+                                                                                TextInputType.number,
+                                                                          )
+                                                                        : TextFormField(
+                                                                            initialValue:
+                                                                                damageTable[j]['row${i}'],
+                                                                            onChanged:
+                                                                                (text) {
+                                                                              setState(() {
+                                                                                damageTable[j]['row${i}'] = text;
+                                                                              });
+                                                                            },
+                                                                          ),
+                                                              ),
+                                                          ]),
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                                actions: [
+                                                  FlatButton(
+                                                    child: Text('Cancel'),
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                  ),
+                                                  FlatButton(
+                                                    child: Text(
+                                                      'Save',
+                                                      style: TextStyle(
+                                                        color:
+                                                            Color(0xFFFFAB00),
+                                                      ),
+                                                    ),
+                                                    onPressed: () {
+                                                      statItem.damageTable = json.encode(damageTable);
+                                                      DatabaseHelper.instance.update('statItem', statItem.toMap());
+                                                      Navigator.pop(context);
+                                                    },
+                                                  )
+                                                ],
+                                              );
+                                            });
+                                          });
+                                    },
+                                  ),
+                                ],
+                              ),
+                            )
+                          : Container())
+                ],
               ),
               Row(
                 children: [
@@ -519,7 +734,8 @@ class _AddStatItemState extends State<AddStatItem> {
                                       TextFormField(
                                         minLines: 4,
                                         maxLines: null,
-                                        textCapitalization: TextCapitalization.sentences,
+                                        textCapitalization:
+                                            TextCapitalization.sentences,
                                         initialValue:
                                             editStatItemWeapon.abilities,
                                         decoration: InputDecoration(
@@ -706,7 +922,8 @@ class _AddStatItemState extends State<AddStatItem> {
                                     },
                                   ),
                                   TextFormField(
-                                    textCapitalization: TextCapitalization.sentences,
+                                    textCapitalization:
+                                        TextCapitalization.sentences,
                                     initialValue: newWeapon.abilities,
                                     decoration: InputDecoration(
                                       labelText: 'Abilities',
