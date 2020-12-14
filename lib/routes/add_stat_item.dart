@@ -187,6 +187,7 @@ class _AddStatItemState extends State<AddStatItem> {
                                                 (context,
                                                     StateSetter setState) {
                                               return AlertDialog(
+                                                scrollable: true,
                                                 contentPadding: EdgeInsets.all(5.0),
                                                 title: Text('Edit Damage Table'),
                                                 content: Column(
