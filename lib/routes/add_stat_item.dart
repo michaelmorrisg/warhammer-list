@@ -36,7 +36,13 @@ class _AddStatItemState extends State<AddStatItem> {
     newWeapon = StatItemWeapon();
     statItemWeapons =
         widget.statItemWeapons != null ? widget.statItemWeapons : [];
-    damageTable = widget.statItem.damageTable != null ? json.decode(widget.statItem.damageTable) : [{'row0': '', 'row1': '', 'row2': ''}, {'row0': '', 'row1': '', 'row2': ''}, {'row0': '', 'row1': '', 'row2': ''}];
+    damageTable = widget.statItem.damageTable != null
+        ? json.decode(widget.statItem.damageTable)
+        : [
+            {'row0': '', 'row1': '', 'row2': ''},
+            {'row0': '', 'row1': '', 'row2': ''},
+            {'row0': '', 'row1': '', 'row2': ''}
+          ];
     super.initState();
   }
 
@@ -171,6 +177,8 @@ class _AddStatItemState extends State<AddStatItem> {
                                       child: Icon(Icons.table_chart),
                                     ),
                                     onTap: () {
+                                      String damageTableCopy = json.encode(damageTable);
+                                      bool damageTableSaved = false;
                                       showDialog(
                                           context: context,
                                           barrierDismissible: true,
@@ -179,70 +187,133 @@ class _AddStatItemState extends State<AddStatItem> {
                                                 (context,
                                                     StateSetter setState) {
                                               return AlertDialog(
-                                                title: Text('Add Damage Table'),
+                                                contentPadding: EdgeInsets.all(5.0),
+                                                title: Text('Edit Damage Table'),
                                                 content: Column(
                                                   children: [
-                                                    Row(
-                                                      children: [
-                                                        RaisedButton(
-                                                          onPressed: () {
-                                                            setState(() {
-                                                              if (damageTable.length > 2) {
-                                                                damageTable.removeLast();
-                                                              }
-                                                            });
-                                                          },
-                                                          textColor:
-                                                              Colors.black,
-                                                          color:
-                                                              Color(0xFFFFAB00),
-                                                          child: Text('-'),
-                                                        ),
-                                                        Text('Columns'),
-                                                        RaisedButton(
-                                                            onPressed: () {
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(bottom: 15.0),
+                                                      child: Row(
+                                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                        children: [
+                                                          GestureDetector(
+                                                            onTap: () {
                                                               setState(() {
-                                                                damageTable
-                                                                    .add({});
-                                                                for (var k = 0; k < damageTable[0].length; k++) {
-                                                                  damageTable[damageTable.length -1]['row${k}'] = '';
+                                                                if (damageTable
+                                                                        .length >
+                                                                    2) {
+                                                                  damageTable
+                                                                      .removeLast();
                                                                 }
                                                               });
                                                             },
-                                                            textColor:
-                                                                Colors.black,
-                                                            color: Color(
-                                                                0xFFFFAB00),
-                                                            child: Text('+'))
-                                                      ],
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                        RaisedButton(
-                                                          onPressed: () {
-                                                            setState(() {
-                                                              if (damageTable[0].length > 2) {
-                                                                num rowNumber = damageTable[0].length - 1;
-                                                                damageTable
-                                                                    .forEach(
-                                                                        (column) {
-                                                                  column.remove(
-                                                                      'row${rowNumber}');
-                                                                });
-                                                              }
-                                                            });
-                                                          },
-                                                          textColor:
-                                                              Colors.black,
-                                                          color:
-                                                              Color(0xFFFFAB00),
-                                                          child: Text('-'),
-                                                        ),
-                                                        Text('Rows'),
-                                                        RaisedButton(
-                                                            onPressed: () {
+                                                            child: CircleAvatar(
+                                                              backgroundColor:
+                                                                  Color(
+                                                                      0xFFFFAB00),
+                                                              radius: 15.0,
+                                                              child: Text(
+                                                                '-',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        16.0,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    color: Colors
+                                                                        .black),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Container(alignment: Alignment.center, width: 65.0,child: Text('Columns')),
+                                                          GestureDetector(
+                                                            onTap: () {
                                                               setState(() {
-                                                                num newRowNumber = damageTable[0].length;
+                                                                damageTable
+                                                                    .add({});
+                                                                for (var k = 0;
+                                                                    k <
+                                                                        damageTable[
+                                                                                0]
+                                                                            .length;
+                                                                    k++) {
+                                                                  damageTable[damageTable
+                                                                          .length -
+                                                                      1]['row${k}'] = '';
+                                                                }
+                                                              });
+                                                            },
+                                                            child: CircleAvatar(
+                                                              backgroundColor:
+                                                                  Color(
+                                                                      0xFFFFAB00),
+                                                              radius: 15.0,
+                                                              child: Text(
+                                                                '+',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        16.0,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    color: Colors
+                                                                        .black),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding: const EdgeInsets.only(top: 15.0, bottom: 30.0),
+                                                      child: Row(
+                                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                        children: [
+                                                          GestureDetector(
+                                                            onTap: () {
+                                                              setState(() {
+                                                                if (damageTable[0]
+                                                                        .length >
+                                                                    2) {
+                                                                  num rowNumber =
+                                                                      damageTable[0]
+                                                                              .length -
+                                                                          1;
+                                                                  damageTable
+                                                                      .forEach(
+                                                                          (column) {
+                                                                    column.remove(
+                                                                        'row${rowNumber}');
+                                                                  });
+                                                                }
+                                                              });
+                                                            },
+                                                            child: CircleAvatar(
+                                                              backgroundColor:
+                                                                  Color(
+                                                                      0xFFFFAB00),
+                                                              radius: 15.0,
+                                                              // child: Icon(Icons.exposure_neg_1)
+                                                              child: Text(
+                                                                '-',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        16.0,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    color: Colors
+                                                                        .black),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          Container(alignment: Alignment.center, width: 65.0, child: Text('Rows')),
+                                                          GestureDetector(
+                                                            onTap: () {
+                                                              setState(() {
+                                                                num newRowNumber =
+                                                                    damageTable[0]
+                                                                        .length;
                                                                 damageTable
                                                                     .forEach(
                                                                         (column) {
@@ -251,56 +322,82 @@ class _AddStatItemState extends State<AddStatItem> {
                                                                 });
                                                               });
                                                             },
-                                                            textColor:
-                                                                Colors.black,
-                                                            color: Color(
-                                                                0xFFFFAB00),
-                                                            child: Text('+'))
-                                                      ],
+                                                            child: CircleAvatar(
+                                                              backgroundColor:
+                                                                  Color(
+                                                                      0xFFFFAB00),
+                                                              radius: 15.0,
+                                                              child: Text(
+                                                                '+',
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        16.0,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    color: Colors
+                                                                        .black),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
                                                     Table(
                                                       children: [
                                                         for (var i = 0;
-                                                            i < damageTable[0].length;
+                                                            i <
+                                                                damageTable[0]
+                                                                    .length;
                                                             i++)
                                                           TableRow(children: [
                                                             for (var j = 0;
-                                                                j < damageTable.length;
+                                                                j <
+                                                                    damageTable
+                                                                        .length;
                                                                 j++)
                                                               TableCell(
                                                                 child: i == 0 &&
                                                                         j == 0
                                                                     ? Text(
-                                                                        'Remaining Wounds')
+                                                                        'Remaining Wounds',
+                                                                        style: TextStyle(fontSize: 14.0)
+                                                                      )
                                                                     : i == 0 &&
                                                                             j !=
                                                                                 0
-                                                                        ? TextFormField(
-                                                                            initialValue:
-                                                                                damageTable[j]['row${i}'],
-                                                                            onChanged:
-                                                                                (text) {
-                                                                              setState(() {
-                                                                                damageTable[j]['row${i}'] = text;
-                                                                              });
-                                                                            },
-                                                                            decoration:
-                                                                                InputDecoration(
-                                                                              labelText: 'Stat Name',
+                                                                        ? Padding(
+                                                                          padding: const EdgeInsets.all(4.0),
+                                                                          child: TextFormField(
+                                                                              initialValue:
+                                                                                  damageTable[j]['row${i}'],
+                                                                              onChanged:
+                                                                                  (text) {
+                                                                                setState(() {
+                                                                                  damageTable[j]['row${i}'] = text;
+                                                                                });
+                                                                              },
+                                                                              decoration:
+                                                                                  InputDecoration(
+                                                                                labelText: 'Stat Name',
+                                                                              ),
+                                                                              keyboardType:
+                                                                                  TextInputType.number,
                                                                             ),
-                                                                            keyboardType:
-                                                                                TextInputType.number,
-                                                                          )
-                                                                        : TextFormField(
-                                                                            initialValue:
-                                                                                damageTable[j]['row${i}'],
-                                                                            onChanged:
-                                                                                (text) {
-                                                                              setState(() {
-                                                                                damageTable[j]['row${i}'] = text;
-                                                                              });
-                                                                            },
-                                                                          ),
+                                                                        )
+                                                                        : Padding(
+                                                                          padding: const EdgeInsets.all(4.0),
+                                                                          child: TextFormField(
+                                                                              initialValue:
+                                                                                  damageTable[j]['row${i}'],
+                                                                              onChanged:
+                                                                                  (text) {
+                                                                                setState(() {
+                                                                                  damageTable[j]['row${i}'] = text;
+                                                                                });
+                                                                              },
+                                                                            ),
+                                                                        ),
                                                               ),
                                                           ]),
                                                       ],
@@ -323,14 +420,25 @@ class _AddStatItemState extends State<AddStatItem> {
                                                       ),
                                                     ),
                                                     onPressed: () {
-                                                      statItem.damageTable = json.encode(damageTable);
-                                                      DatabaseHelper.instance.update('statItem', statItem.toMap());
+                                                      damageTableSaved = true;
+                                                      statItem.damageTable =
+                                                          json.encode(
+                                                              damageTable);
+                                                      DatabaseHelper.instance
+                                                          .update('statItem',
+                                                              statItem.toMap());
                                                       Navigator.pop(context);
                                                     },
                                                   )
                                                 ],
                                               );
                                             });
+                                          }).then((val) => {
+                                            if (damageTableSaved == false) {
+                                              setState(() => {
+                                                damageTable = json.decode(damageTableCopy)
+                                              })
+                                            }
                                           });
                                     },
                                   ),
