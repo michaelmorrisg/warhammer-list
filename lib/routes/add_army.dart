@@ -102,7 +102,7 @@ class _AddArmyState extends State<AddArmy> {
                         })
                     : Center(
                         child: Text(
-                            'Add units to the army by clicking the + or circles below.')),
+                            'Add units to the army by clicking the \'+\' or circles below.', style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold), textAlign: TextAlign.center,),),
               ),
               Expanded(
                   flex: 2,

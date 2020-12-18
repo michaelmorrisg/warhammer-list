@@ -50,6 +50,7 @@ class _AddStatItemState extends State<AddStatItem> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
+        print(statItem.toMap());
         DatabaseHelper.instance.update('statItem', statItem.toMap());
         Navigator.pop(context, statItem);
         return false;
@@ -382,8 +383,6 @@ class _AddStatItemState extends State<AddStatItem> {
                                                                                   InputDecoration(
                                                                                 labelText: 'Stat Name',
                                                                               ),
-                                                                              keyboardType:
-                                                                                  TextInputType.number,
                                                                             ),
                                                                         )
                                                                         : Padding(
@@ -637,7 +636,6 @@ class _AddStatItemState extends State<AddStatItem> {
                         decoration: InputDecoration(
                           labelText: 'Abilities',
                         ),
-                        // keyboardType: TextInputType.multiline,
                         onChanged: (text) {
                           setState(() {
                             statItem.abilities = text;
