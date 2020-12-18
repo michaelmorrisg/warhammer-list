@@ -24,8 +24,7 @@ class _AvatarStatsState extends State<AvatarStats> {
   initState() {
     statItem = widget.statItem;
     currentArmy = widget.currentArmy;
-    damageTable = json.decode(widget.statItem.damageTable);
-    print(damageTable);
+    damageTable = widget.statItem.damageTable == null ? null : json.decode(widget.statItem.damageTable);
 
     super.initState();
     DatabaseHelper.instance
@@ -195,7 +194,7 @@ class _AvatarStatsState extends State<AvatarStats> {
               ],
             ),
           ),
-          if (statItem.degrades == true)
+          if (statItem.degrades == true && damageTable != null)
                     Padding(
             padding: const EdgeInsets.only(top: 10.0, left: 10.0),
             child: Row(
@@ -208,6 +207,7 @@ class _AvatarStatsState extends State<AvatarStats> {
               ],
             ),
           ),
+          if (statItem.degrades == true && damageTable != null)
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Container(
