@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
           }
         },
           child: MaterialApp(
-        title: 'Testing Things',
+        title: '',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           brightness: Brightness.dark,

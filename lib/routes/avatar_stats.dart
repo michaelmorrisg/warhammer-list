@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:warhammerApp/classes/stat_item_weapon.dart';
 import 'package:warhammerApp/db/database_helper.dart';
@@ -16,11 +18,14 @@ class AvatarStats extends StatefulWidget {
 class _AvatarStatsState extends State<AvatarStats> {
   StatItem statItem;
   Army currentArmy;
+  List damageTable;
   List<StatItemWeapon> statItemWeapons = [];
 
   initState() {
     statItem = widget.statItem;
     currentArmy = widget.currentArmy;
+    damageTable = json.decode(widget.statItem.damageTable);
+    print(damageTable);
 
     super.initState();
     DatabaseHelper.instance
@@ -146,51 +151,84 @@ class _AvatarStatsState extends State<AvatarStats> {
                     ),
                   ]),
                 ]),
-                                  Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey)),
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 8.0, top: 5.0),
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      'Abilities',
-                                      style: TextStyle(
-                                          fontSize: 12.0,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
-                                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey)),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(left: 8.0, top: 5.0),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'Abilities',
+                                    style: TextStyle(
+                                        fontSize: 12.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
                               ),
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(
-                                    12.0, 5.0, 10.0, 5.0),
-                                child: Row(
-                                  children: [
-                                    Flexible(
-                                      child: Text(
-                                          statItem.abilities == null
-                                              ? '-'
-                                              : statItem.abilities),
-                                    ),
-                                  ],
-                                ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.fromLTRB(
+                                  12.0, 5.0, 10.0, 5.0),
+                              child: Row(
+                                children: [
+                                  Flexible(
+                                    child: Text(statItem.abilities == null
+                                        ? '-'
+                                        : statItem.abilities),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      )
-                    ],
-                  )
+                      ),
+                    )
+                  ],
+                )
               ],
             ),
           ),
+          if (statItem.degrades == true)
+                    Padding(
+            padding: const EdgeInsets.only(top: 10.0, left: 10.0),
+            child: Row(
+              children: [
+                Text('Damage Table',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.0,
+                        color: Color(0xFFFFAB00))),
+              ],
+            ),
+          ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Container(
+                decoration: BoxDecoration(border: Border.all(color: Colors.grey)),
+                child: Table(
+                  children: [
+                  for (var i = 0; i < damageTable[0].length; i++)
+                    TableRow(children: [
+                      for (var j = 0; j < damageTable.length; j++)
+                        TableCell(
+                          child: Container(
+                            decoration: BoxDecoration(color: i == 0 ? Colors.blueGrey : (i % 2) == 0 ? Color.fromRGBO(255, 255, 255, 0.1) : null),
+                            child: i == 0 && j == 0
+                                ? Text('W Remaining')
+                                : Text(damageTable[j]['row${i}']),
+                          ),
+                        ),
+                    ]),
+                ]),
+              ),
+            ),
           Padding(
             padding: const EdgeInsets.only(top: 10.0, left: 10.0),
             child: Row(
