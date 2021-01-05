@@ -1057,7 +1057,8 @@ class _AddStatItemState extends State<AddStatItem> {
                                 },
                               ),
                               FlatButton(
-                                child: Text('Create'),
+                                child: Text('Create', style: TextStyle(                                                        color:
+                                                            Color(0xFFFFAB00),)),
                                 onPressed: () {
                                   newWeapon.statItemId = widget.statItem.id;
                                   DatabaseHelper.instance

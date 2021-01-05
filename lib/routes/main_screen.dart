@@ -31,7 +31,16 @@ class _MainScreenState extends State<MainScreen> {
       return Scaffold(
           body: Container(
         alignment: Alignment(0, 0),
-        child: CircularProgressIndicator(),
+        child: Padding(
+              padding: const EdgeInsets.only(top: 25.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/logo_forty_opacity.png'),
+                  ),
+                ),
+              ),
+            ),
       ));
     }
     return Scaffold(
@@ -53,7 +62,8 @@ class _MainScreenState extends State<MainScreen> {
                     ),
                     actions: <Widget>[
                       FlatButton(
-                        child: Text('Create'),
+                        child: Text('Create', style: TextStyle(                                                        color:
+                                                            Color(0xFFFFAB00),)),
                         onPressed: () {
                           Army newArmy = Army(name: newName, statItems: []);
                           setState(() {

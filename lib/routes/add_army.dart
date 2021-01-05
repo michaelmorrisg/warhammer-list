@@ -66,160 +66,158 @@ class _AddArmyState extends State<AddArmy> {
         appBar: AppBar(
           title: Text(widget.army.name),
         ),
-        body: Padding(
-          padding: const EdgeInsets.only(top: 15.0),
-          child: Column(
-            children: <Widget>[
-              Expanded(
-                flex: 8,
-                child: selectedStatItems.length > 0
-                    ? GridView.builder(
-                        itemCount: selectedStatItems.length,
-                        gridDelegate:
-                            new SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisSpacing: 5,
-                          crossAxisCount: 3,
-                          childAspectRatio: 1,
-                        ),
-                        itemBuilder: (BuildContext context, index) {
-                          return GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  StatItem removedAvatar =
-                                      selectedStatItems.removeAt(index);
-                                  DatabaseHelper.instance.pivotDelete(
-                                      'armyStatItemPivot',
-                                      removedAvatar.id,
-                                      widget.army.id);
-                                  statItemList.statItemList.add(removedAvatar);
-                                });
-                              },
-                              child: StatAvatar(
-                                  id: selectedStatItems[index].id,
-                                  imageText: selectedStatItems[index].imageText,
-                                  name: selectedStatItems[index].name,
-                                  color: selectedStatItems[index].color));
-                        })
-                    : Center(
-                        child: Text(
-                            'Add units to the army by clicking the \'+\' or circles below.', style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold), textAlign: TextAlign.center,),),
-              ),
-              Expanded(
-                  flex: 2,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Colors.grey[800],
-                        boxShadow: <BoxShadow>[
-                          BoxShadow(
-                            color: Colors.black,
-                            offset: Offset(0.0, 6.0),
-                            blurRadius: 20.0,
-                          )
-                        ]),
-                    child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: filteredStatItemList.length,
-                        itemBuilder: (BuildContext context, index) {
-                          return GestureDetector(
+        body: Column(
+          children: <Widget>[
+            Expanded(
+              flex: 8,
+              child: selectedStatItems.length > 0
+                  ? GridView.builder(
+                      itemCount: selectedStatItems.length,
+                      gridDelegate:
+                          new SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisSpacing: 5,
+                        crossAxisCount: 3,
+                        childAspectRatio: 1,
+                      ),
+                      itemBuilder: (BuildContext context, index) {
+                        return GestureDetector(
                             onTap: () {
                               setState(() {
-                                if (filteredStatItemList[index].id == 0) {
-                                  showDialog(
-                                      context: context,
-                                      barrierDismissible: true,
-                                      builder: (BuildContext context) {
-                                        return AlertDialog(
-                                          title: Text(
-                                              'What do you want to name your new unit?'),
-                                          content: TextField(
-                                            textCapitalization: TextCapitalization.words,
-                                            decoration: InputDecoration(
-                                                labelText: 'Name'),
-                                            onChanged: (input) {
-                                              name = input;
-                                            },
-                                          ),
-                                          actions: <Widget>[
-                                            FlatButton(
-                                              child: Text('Create'),
-                                              onPressed: () {
-                                                String randomColorCode =
-                                                    getColorNameFromColor(
-                                                        randomColor.randomColor(
-                                                            colorBrightness:
-                                                                ColorBrightness
-                                                                    .light,
-                                                            colorHue: ColorHue
-                                                                .multiple(
-                                                                    colorHues: [
-                                                                  ColorHue.blue
-                                                                ]))).getCode;
-                                                StatItem newStatItem = StatItem(
-                                                    name: name,
-                                                    color: randomColorCode);
-                                                setState(() {
-                                                  DatabaseHelper.instance
-                                                      .insert('statItem', {
-                                                    'name': name,
-                                                    'color': randomColorCode
-                                                  }).then((id) {
-                                                    newStatItem.id = id;
-                                                    DatabaseHelper.instance
-                                                        .insert(
-                                                            'armyStatItemPivot',
-                                                            {
-                                                          'statItemId':
-                                                              newStatItem.id,
-                                                          'armyId':
-                                                              widget.army.id
-                                                        });
-                                                  });
-                                                  selectedStatItems
-                                                      .add(newStatItem);
-                                                });
-                                                Navigator.pop(context);
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        AddStatItem(
-                                                            statItem:
-                                                                newStatItem,
-                                                            isNew: true),
-                                                  ),
-                                                );
-                                              },
-                                            ),
-                                          ],
-                                        );
-                                      });
-                                } else {
-                                  StatItem removedAvatar =
-                                      filteredStatItemList.removeAt(index);
-                                  DatabaseHelper.instance.insert(
-                                      'armyStatItemPivot', {
-                                    'statItemId': removedAvatar.id,
-                                    'armyId': widget.army.id
-                                  });
-                                  selectedStatItems.add(removedAvatar);
-                                }
+                                StatItem removedAvatar =
+                                    selectedStatItems.removeAt(index);
+                                DatabaseHelper.instance.pivotDelete(
+                                    'armyStatItemPivot',
+                                    removedAvatar.id,
+                                    widget.army.id);
+                                statItemList.statItemList.add(removedAvatar);
                               });
                             },
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(
-                                  0.0, 10.0, 0.0, 0.0),
-                              child: StatAvatar(
-                                  id: filteredStatItemList[index].id,
-                                  imageText:
-                                      filteredStatItemList[index].imageText,
-                                  name: filteredStatItemList[index].name,
-                                  color: filteredStatItemList[index].color),
-                            ),
-                          );
-                        }),
-                  )),
-            ],
-          ),
+                            child: StatAvatar(
+                                id: selectedStatItems[index].id,
+                                imageText: selectedStatItems[index].imageText,
+                                name: selectedStatItems[index].name,
+                                color: selectedStatItems[index].color));
+                      })
+                  : Center(
+                      child: Text(
+                          'Add units to the army by clicking the \'+\' or circles below.', style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold), textAlign: TextAlign.center,),),
+            ),
+            Expanded(
+                flex: 2,
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.grey[800],
+                      boxShadow: <BoxShadow>[
+                        BoxShadow(
+                          color: Colors.black,
+                          offset: Offset(0.0, 6.0),
+                          blurRadius: 20.0,
+                        )
+                      ]),
+                  child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: filteredStatItemList.length,
+                      itemBuilder: (BuildContext context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              if (filteredStatItemList[index].id == 0) {
+                                showDialog(
+                                    context: context,
+                                    barrierDismissible: true,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text(
+                                            'What do you want to name your new unit?'),
+                                        content: TextField(
+                                          textCapitalization: TextCapitalization.words,
+                                          decoration: InputDecoration(
+                                              labelText: 'Name'),
+                                          onChanged: (input) {
+                                            name = input;
+                                          },
+                                        ),
+                                        actions: <Widget>[
+                                          FlatButton(
+                                            child: Text('Create', style: TextStyle(                                                        color:
+                                                            Color(0xFFFFAB00),),),
+                                            onPressed: () {
+                                              String randomColorCode =
+                                                  getColorNameFromColor(
+                                                      randomColor.randomColor(
+                                                          colorBrightness:
+                                                              ColorBrightness
+                                                                  .light,
+                                                          colorHue: ColorHue
+                                                              .multiple(
+                                                                  colorHues: [
+                                                                ColorHue.blue
+                                                              ]))).getCode;
+                                              StatItem newStatItem = StatItem(
+                                                  name: name,
+                                                  color: randomColorCode);
+                                              setState(() {
+                                                DatabaseHelper.instance
+                                                    .insert('statItem', {
+                                                  'name': name,
+                                                  'color': randomColorCode
+                                                }).then((id) {
+                                                  newStatItem.id = id;
+                                                  DatabaseHelper.instance
+                                                      .insert(
+                                                          'armyStatItemPivot',
+                                                          {
+                                                        'statItemId':
+                                                            newStatItem.id,
+                                                        'armyId':
+                                                            widget.army.id
+                                                      });
+                                                });
+                                                selectedStatItems
+                                                    .add(newStatItem);
+                                              });
+                                              Navigator.pop(context);
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      AddStatItem(
+                                                          statItem:
+                                                              newStatItem,
+                                                          isNew: true),
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        ],
+                                      );
+                                    });
+                              } else {
+                                StatItem removedAvatar =
+                                    filteredStatItemList.removeAt(index);
+                                DatabaseHelper.instance.insert(
+                                    'armyStatItemPivot', {
+                                  'statItemId': removedAvatar.id,
+                                  'armyId': widget.army.id
+                                });
+                                selectedStatItems.add(removedAvatar);
+                              }
+                            });
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(
+                                0.0, 10.0, 0.0, 0.0),
+                            child: StatAvatar(
+                                id: filteredStatItemList[index].id,
+                                imageText:
+                                    filteredStatItemList[index].imageText,
+                                name: filteredStatItemList[index].name,
+                                color: filteredStatItemList[index].color),
+                          ),
+                        );
+                      }),
+                )),
+          ],
         ),
       );
     }
