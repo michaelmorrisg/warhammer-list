@@ -63,12 +63,13 @@ class _AvatarStatsState extends State<AvatarStats> {
                       statItem: statItem,
                       isNew: false,
                       currentArmy: currentArmy,
-                      statItemWeapons: statItemWeapons,
+                      statItemWeapons: statItemWeapons
                     ),
                   ),
                 );
                 setState(() {
                   statItem = updatedData;
+                  damageTable = json.decode(updatedData.damageTable);
                 });
               }),
         ],

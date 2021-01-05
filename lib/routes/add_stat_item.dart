@@ -12,12 +12,14 @@ class AddStatItem extends StatefulWidget {
   final bool isNew;
   final Army currentArmy;
   final List<StatItemWeapon> statItemWeapons;
+
   const AddStatItem(
       {Key key,
       @required this.statItem,
       this.isNew,
       this.currentArmy,
-      this.statItemWeapons})
+      this.statItemWeapons
+      })
       : super(key: key);
   _AddStatItemState createState() => _AddStatItemState();
 }
@@ -50,7 +52,6 @@ class _AddStatItemState extends State<AddStatItem> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        print(statItem.toMap());
         DatabaseHelper.instance.update('statItem', statItem.toMap());
         Navigator.pop(context, statItem);
         return false;
@@ -371,6 +372,7 @@ class _AddStatItemState extends State<AddStatItem> {
                                                                         ? Padding(
                                                                           padding: const EdgeInsets.all(4.0),
                                                                           child: TextFormField(
+                                                                            textCapitalization: TextCapitalization.words,
                                                                               initialValue:
                                                                                   damageTable[j]['row${i}'],
                                                                               onChanged:
@@ -939,6 +941,7 @@ class _AddStatItemState extends State<AddStatItem> {
                               child: ListView(
                                 children: [
                                   TextFormField(
+                                    textCapitalization: TextCapitalization.words,
                                     initialValue: newWeapon.name,
                                     decoration:
                                         InputDecoration(labelText: 'Name'),
@@ -991,7 +994,6 @@ class _AddStatItemState extends State<AddStatItem> {
                                             initialValue: newWeapon.strength,
                                             decoration: InputDecoration(
                                                 labelText: 'Strength'),
-                                            keyboardType: TextInputType.number,
                                             onChanged: (text) {
                                               setState(() {
                                                 newWeapon.strength = text;
@@ -1019,6 +1021,7 @@ class _AddStatItemState extends State<AddStatItem> {
                                     ],
                                   ),
                                   TextFormField(
+                                    textCapitalization: TextCapitalization.words,
                                     initialValue: newWeapon.damage,
                                     decoration:
                                         InputDecoration(labelText: 'Damage'),
@@ -1029,6 +1032,8 @@ class _AddStatItemState extends State<AddStatItem> {
                                     },
                                   ),
                                   TextFormField(
+                                    minLines: 4,
+                                    maxLines: null,
                                     textCapitalization:
                                         TextCapitalization.sentences,
                                     initialValue: newWeapon.abilities,
