@@ -5,6 +5,7 @@ import '../stat_avatar.dart';
 import '../classes/army.dart';
 import '../classes/stat_item.dart';
 import '../routes/add_stat_item.dart';
+import '../routes/import_army.dart';
 import '../db/database_helper.dart';
 
 class AddArmy extends StatefulWidget {
@@ -17,6 +18,61 @@ class _AddArmyState extends State<AddArmy> {
   StatItemList statItemList;
   List selectedItemList;
   RandomColor randomColor = RandomColor();
+  List armyOptions = [
+    {'title': 'Aeldari - Craftworlds', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Aeldari - Drukhari', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Aeldari - FW Corsairs', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Aeldari - Harlequins', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Aeldari - Ynnari', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Chaos - Chaos Knights', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Chaos - Chaos Space Marines', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Chaos - Daemons', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Chaos - Death Guard', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Chaos - FW Heretic Astartes', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Chaos - Renegades', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Chaos - Gellerpox Infected', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Chaos - Servants of the Abyss', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Chaos - Thousand Sons', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Chaos - Chaos Titan Legions', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Fallen', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Imperium - Adepta Sororitas', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Imperium - Adeptus Astra Telepathica', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Imperium - Adeptus Custodes', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Imperium - Adeptus Mechanicus', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Imperium - Astra Militarum - Library', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Imperium - Astra Militarum', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Imperium - Adeptus Astartes - Black Templars', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Imperium - Blackstone Fortress', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Imperium - Adeptus Astartes - Blood Angels', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Imperium - Adeptus Astartes - Dark Angels', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Imperium - Adeptus Astartes - Deathwatch', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Imperium - Elucidian Starstriders', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Imperium - FW Adeptus Astartes', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Imperium - Death Korps of Krieg', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Imperium - Elysian Drop Troops', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Imperium - Grey Knights', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Imperium - Adeptus Astartes - Imperial Fists', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Imperium - Imperial Knights', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Imperium - Inquisition', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Imperium - Adeptus Astartes - Iron Hands', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Imperium - Legion of the Damned', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Imperium - Officio Assassinorum', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Imperium - Adeptus Astartes - Raven Guard', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Imperium - Adeptus Astartes - Salamanders', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Imperium - Sisters of Silence', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Imperium - Space Marines', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Imperium - Adeptus Astartes - Space Wolves', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Imperium - Titan Legions', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Imperium - Adeptus Astartes - Ultramarines', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Imperium - Adeptus Astartes - White Scars', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Necrons', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Orks', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Tau Empire', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Tyranids - Genestealer Cults', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Tyranids', 'filePath': './wh40k/Chaos - Daemons.cat'},
+    {'title': 'Unaligned - Monsters and Gribblies', 'filePath': './wh40k/Chaos - Daemons.cat'},
+  ];
+  var _importArmy;
   @override
   void initState() {
     super.initState();
@@ -46,8 +102,7 @@ class _AddArmyState extends State<AddArmy> {
             attacks: result[i]['attacks'],
             wounds: result[i]['wounds'],
             degrades: result[i]['degrades'],
-            damageTable: result[i]['damageTable']
-            ));
+            damageTable: result[i]['damageTable']));
       }
       setState(() {
         selectedItemList = selectedStatItems;
@@ -65,6 +120,60 @@ class _AddArmyState extends State<AddArmy> {
       return Scaffold(
         appBar: AppBar(
           title: Text(widget.army.name),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.import_export),
+              onPressed: () async {
+                showDialog(
+                    context: context,
+                    barrierDismissible: true,
+                    builder: (BuildContext context) {
+                      return StatefulBuilder(
+                          builder: (context, StateSetter setState) {
+                        return AlertDialog(
+                          title: Text('Choose an army to import from'),
+                          content: Container(
+                            width: double.maxFinite,
+                            child: ListView(
+                              children: [
+                                for (var i = 0; i < armyOptions.length; i ++) 
+                                RadioListTile(
+                                    title: Text(armyOptions[i]['title']),
+                                    value: armyOptions[i],
+                                    groupValue: _importArmy,
+                                    activeColor: Color(0xFFFFAB00),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _importArmy = value;
+                                      });
+                                    }),
+                              ],
+                            ),
+                          ),
+                          actions: <Widget>[
+                            FlatButton(
+                              child: Text(
+                                'Next',
+                                style: TextStyle(
+                                  color: Color(0xFFFFAB00),
+                                ),
+                              ),
+                              onPressed: () {
+                                Navigator.pop(context);
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ImportArmy(army: _importArmy)));
+                              },
+                            ),
+                          ],
+                        );
+                      });
+                    });
+              },
+            )
+          ],
         ),
         body: Column(
           children: <Widget>[
@@ -100,7 +209,12 @@ class _AddArmyState extends State<AddArmy> {
                       })
                   : Center(
                       child: Text(
-                          'Add units to the army by clicking the \'+\' or circles below.', style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold), textAlign: TextAlign.center,),),
+                        'Add units to the army by clicking the \'+\' or circles below.',
+                        style: TextStyle(
+                            fontSize: 18.0, fontWeight: FontWeight.bold),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
             ),
             Expanded(
                 flex: 2,
@@ -130,7 +244,8 @@ class _AddArmyState extends State<AddArmy> {
                                         title: Text(
                                             'What do you want to name your new unit?'),
                                         content: TextField(
-                                          textCapitalization: TextCapitalization.words,
+                                          textCapitalization:
+                                              TextCapitalization.words,
                                           decoration: InputDecoration(
                                               labelText: 'Name'),
                                           onChanged: (input) {
@@ -139,8 +254,12 @@ class _AddArmyState extends State<AddArmy> {
                                         ),
                                         actions: <Widget>[
                                           FlatButton(
-                                            child: Text('Create', style: TextStyle(                                                        color:
-                                                            Color(0xFFFFAB00),),),
+                                            child: Text(
+                                              'Create',
+                                              style: TextStyle(
+                                                color: Color(0xFFFFAB00),
+                                              ),
+                                            ),
                                             onPressed: () {
                                               String randomColorCode =
                                                   getColorNameFromColor(
@@ -148,8 +267,8 @@ class _AddArmyState extends State<AddArmy> {
                                                           colorBrightness:
                                                               ColorBrightness
                                                                   .light,
-                                                          colorHue: ColorHue
-                                                              .multiple(
+                                                          colorHue:
+                                                              ColorHue.multiple(
                                                                   colorHues: [
                                                                 ColorHue.blue
                                                               ]))).getCode;
@@ -157,21 +276,19 @@ class _AddArmyState extends State<AddArmy> {
                                                   name: name,
                                                   color: randomColorCode);
                                               setState(() {
-                                                DatabaseHelper.instance
-                                                    .insert('statItem', {
+                                                DatabaseHelper.instance.insert(
+                                                    'statItem', {
                                                   'name': name,
                                                   'color': randomColorCode
                                                 }).then((id) {
                                                   newStatItem.id = id;
                                                   DatabaseHelper.instance
                                                       .insert(
-                                                          'armyStatItemPivot',
-                                                          {
-                                                        'statItemId':
-                                                            newStatItem.id,
-                                                        'armyId':
-                                                            widget.army.id
-                                                      });
+                                                          'armyStatItemPivot', {
+                                                    'statItemId':
+                                                        newStatItem.id,
+                                                    'armyId': widget.army.id
+                                                  });
                                                 });
                                                 selectedStatItems
                                                     .add(newStatItem);
@@ -182,8 +299,7 @@ class _AddArmyState extends State<AddArmy> {
                                                 MaterialPageRoute(
                                                   builder: (context) =>
                                                       AddStatItem(
-                                                          statItem:
-                                                              newStatItem,
+                                                          statItem: newStatItem,
                                                           isNew: true),
                                                 ),
                                               );
@@ -205,8 +321,8 @@ class _AddArmyState extends State<AddArmy> {
                             });
                           },
                           child: Padding(
-                            padding: const EdgeInsets.fromLTRB(
-                                0.0, 10.0, 0.0, 0.0),
+                            padding:
+                                const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
                             child: StatAvatar(
                                 id: filteredStatItemList[index].id,
                                 imageText:
